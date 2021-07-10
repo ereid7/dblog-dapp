@@ -9,6 +9,7 @@ class Header extends Component {
 
   render() {
     return (
+
     <div className="header">
         <h2>DBlog</h2>
         <button className="connect-button" onClick={() => {
