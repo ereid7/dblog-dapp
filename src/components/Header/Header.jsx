@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "./Header.css";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
 
 class Header extends Component {
 
@@ -10,12 +13,18 @@ class Header extends Component {
   render() {
     return (
 
-    <div className="header">
-        <h2>DBlog</h2>
-        <button className="connect-button" onClick={() => {
-          this.handleConnect()
-        }}>Connect</button>
-    </div>
+    <Navbar className="justify-content-center" bg="light">
+      <Navbar.Brand className="header-title">DBlog</Navbar.Brand>
+      <Nav defaultActiveKey="/home" as="ul">
+        <Nav.Item as="li">
+          <Nav.Link href="/home">Read</Nav.Link>
+        </Nav.Item>
+        <Nav.Item as="li">
+          <Nav.Link eventKey="link-1">Publish</Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <Button className="connect-button" variant="outline-success">Connect</Button>
+    </Navbar>
     );
   }
 }

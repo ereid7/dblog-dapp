@@ -1,0 +1,17 @@
+.post-page {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.post-title {
+    margin-top: 20px;
+}
+
+.post-page-container {
+    position:relative;
+    margin: 0 auto;
+    width: 700px;
+    overflow-wrap: break-word;
+}
