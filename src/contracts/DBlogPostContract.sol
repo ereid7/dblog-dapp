@@ -54,7 +54,7 @@ contract DBlogPostContract is Ownable {
     }
     
     function addComment(string memory _content) public {
-        comments[commentCount] = Comment(true, _content, msg.sender);
+        comments[commentCount] = Comment(commentCount++, _content, msg.sender);
     }
     
     function setDeleted(bool _isDeleted) onlyOwner public {

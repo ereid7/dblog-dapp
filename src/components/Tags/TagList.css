@@ -1,0 +1,11 @@
+.tags-container {
+    text-align: left;
+}
+.tag-badge {
+    font-family: Arial;
+    color: #897575;
+    font-size: 13px;
+    background-color: #F2F2F2;
+    padding: 10px;
+    margin: 0px 10px 0px 0px;
+}

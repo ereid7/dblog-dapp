@@ -3,12 +3,9 @@ import "./Header.css";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
+import Web3 from 'web3';
 
 class Header extends Component {
-
-  handleConnect() {
-
-  }
 
   render() {
     return (
@@ -23,7 +20,7 @@ class Header extends Component {
           <Nav.Link eventKey="link-1">Publish</Nav.Link>
         </Nav.Item>
       </Nav>
-      <Button className="connect-button" variant="outline-success">Connect</Button>
+      <Button className="connect-button" onClick={this.props.connectWallet()} variant="outline-success">Connect</Button>
     </Navbar>
     );
   }

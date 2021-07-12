@@ -3,6 +3,7 @@
     height: 100%;
     width: 100%;
     text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .post-title {
@@ -14,4 +15,9 @@
     margin: 0 auto;
     width: 700px;
     overflow-wrap: break-word;
+}
+
+.post-content {
+    text-align: left;
+    font-size: 21px;
 }
