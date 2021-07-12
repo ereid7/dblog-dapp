@@ -11,11 +11,9 @@ class TagList extends Component {
   render() {
     return (
       <div className="tags-container">
-				<h1>
         {this.props.tagList.map((value, index) => {
 					return <Badge className="tag-badge" key={index}>{value}</Badge>
         })}
-				</h1>
       </div>
     );
   }

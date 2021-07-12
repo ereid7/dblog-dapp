@@ -2,9 +2,15 @@
 .connect-button {
     position: fixed;
     right: 20px;
+    width: 100px;
 }
 
 .header-title {
     position: fixed;
     left: 20px;
+}
+
+.account-address-label {
+    position: fixed;
+    right: 150px;
 }

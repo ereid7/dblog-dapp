@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container'
 import TagList from '../Tags/TagList';
 import DBlogPostContract from '../../abis/DBlogPostContract.json'
 
-
 // function useQuery() {
 //   return new URLSearchParams(useLocation().search);
 // }
@@ -53,11 +52,9 @@ class PostPage extends Component {
 To some extent, that happened. Yet we survived! And then something came along that challenged TV. The Web was a two-way medium. Each consumer was also a potential creator or contributor in a way that never happened, couldn’t happen, with television. That’s a huge transformation of our media landscape, And we’re still just getting our heads around it.
           </div>
           <hr />
-          <div className="post-tags-container">
-            <TagList tagList={this.state.tagList}></TagList>
-          </div>
+          <TagList tagList={this.state.tagList}></TagList>
           <div className="post-footer-container">
-            
+
           </div>
           <hr />
         </div>

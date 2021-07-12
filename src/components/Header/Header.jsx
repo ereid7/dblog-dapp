@@ -7,6 +7,16 @@ import Web3 from 'web3';
 
 class Header extends Component {
 
+  formatAccountAddress() {
+    if (this.props.account != undefined && this.props.account != "0x0") {
+      var strLen = this.props.account.length;
+      return `${this.props.account.substr(0, 6)}...${this.props.account.substr(strLen - 4, strLen - 1)}`
+    } else {
+      return "";
+    }
+  }
+
+  // TODO disable button if connected
   render() {
     return (
 
@@ -20,7 +30,14 @@ class Header extends Component {
           <Nav.Link eventKey="link-1">Publish</Nav.Link>
         </Nav.Item>
       </Nav>
-      <Button className="connect-button" onClick={this.props.connectWallet()} variant="outline-success">Connect</Button>
+      <Navbar.Text className="account-address-label">
+        {this.formatAccountAddress()}
+      </Navbar.Text>
+      <Button className="connect-button" variant={this.props.isConnected ? "outline-secondary" : "outline-primary"} onClick={async () => {
+        if (!this.props.isConnected) {
+          await this.props.connectWallet()
+        }
+      }}>{this.props.isConnected ? "Connected" : "Connect"}</Button>
     </Navbar>
     );
   }
