@@ -13,11 +13,38 @@
 .post-page-container {
     position:relative;
     margin: 0 auto;
-    width: 700px;
+    max-width: 700px;
+    padding-left: 10px;
+    padding-right: 10px;
     overflow-wrap: break-word;
 }
 
 .post-content {
     text-align: left;
     font-size: 21px;
+}
+
+.post-footer-container {
+    margin-top: 20px;
+    text-align: justify;
+    color: #434343
+}
+.likes-display {
+    width: 100px;
+    height: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.tag-list {
+    margin-top: 20px;
+}
+
+.likes-display * {
+    position: inline-block;
+}
+
+.likes-value {
+    margin-left: 5px;
+    font-size:21px;
 }

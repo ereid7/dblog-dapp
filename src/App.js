@@ -4,6 +4,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header';
 import PostPage from './components/PostPage/PostPage';
+import BlogPage from './components/BlogPage/BlogPage';
 import React, { Component } from "react";
 import Web3 from 'web3';
 
@@ -74,9 +75,8 @@ class App extends Component {
         <Header connectWallet={this.loadAccounts} isConnected={this.state.isConnected} account={this.state.account} />
         <BrowserRouter>
           <Switch>
-            <Route 
-            path="/post"
-            component={PostPage} />
+            <Route path="/post" component={PostPage} />
+            <Route path="/blog" component={BlogPage} />
             <Route path="*" component = {() => "404 NOT FOUND"} />
           </Switch>
         </BrowserRouter>

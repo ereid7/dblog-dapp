@@ -16,10 +16,8 @@ class Header extends Component {
     }
   }
 
-  // TODO disable button if connected
   render() {
     return (
-
     <Navbar className="justify-content-center" bg="light">
       <Navbar.Brand className="header-title">DBlog</Navbar.Brand>
       <Nav defaultActiveKey="/home" as="ul">
@@ -33,7 +31,7 @@ class Header extends Component {
       <Navbar.Text className="account-address-label">
         {this.formatAccountAddress()}
       </Navbar.Text>
-      <Button className="connect-button" variant={this.props.isConnected ? "outline-secondary" : "outline-primary"} onClick={async () => {
+      <Button className="connect-button" disabled={this.props.isConnected} variant={this.props.isConnected ? "outline-secondary" : "outline-primary"} onClick={async () => {
         if (!this.props.isConnected) {
           await this.props.connectWallet()
         }
