@@ -8,16 +8,14 @@ import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
 import { withRouter } from 'react-router-dom';
 
-
+// TODO remove duplicate styling between pages
 class PostPage extends Component {
 
   async componentDidMount() {
     const search = this.props.location.search;    
     const postId = new URLSearchParams(search).get("postId");
 
-    console.log(postId)
     if (postId == null) {
-
       this.props.history.push('/read')
     }
     else {
@@ -31,6 +29,7 @@ class PostPage extends Component {
     const testAddress = postId
 
     //const networkId = await web3.eth.net.getId();
+    // TODO if contract doesn't exist, navigate to rea
     const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, testAddress)
     this.setState({ dBlogPostContract })
 

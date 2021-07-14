@@ -1,0 +1,57 @@
+.blog-page {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    overflow: scroll;
+}
+
+.blog-title {
+    margin-top: 20px;
+}
+
+.blog-page-container {
+    position:relative;
+    margin: 0 auto;
+    max-width: 700px;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-wrap: break-word;
+}
+
+.blog-post-list {
+    text-align: left;
+}
+
+.post-item {
+    margin: 20px 10px 20px 10px;
+}
+
+.post-item-info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.post-date {
+    width: 50px;
+    height: 30px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.likes-display {
+   
+    display:flex;
+    height: 30px;
+    width: 40px;
+}
+
+
+.likes-value {
+    margin: auto;
+}
+.likes-icon {
+    margin: auto;
+}

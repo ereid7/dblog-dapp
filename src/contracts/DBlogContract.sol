@@ -7,9 +7,8 @@ import '@openzeppelin/contracts/access/Ownable.sol';
 contract DBlogContract is Ownable {
     
     string public blogName;
-    
-    uint postCount;
-    uint tagCount;
+    uint public postCount;
+    uint public tagCount;
     
     // TODO is this needed or is address fine
     mapping(uint => DBlogPostContract) public postMap;
