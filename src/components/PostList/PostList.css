@@ -1,0 +1,39 @@
+.blog-post-list {
+    text-align: left;
+}
+
+
+.post-item {
+    margin: 20px 10px 20px 10px;
+}
+
+.post-name:hover {
+    cursor: pointer;
+}
+
+.post-item-info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.post-label {
+    width: 50px;
+    height: 30px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.likes-display {
+    display:flex;
+    height: 30px;
+    width: 40px;
+}
+
+
+.likes-value {
+    margin: auto;
+}
+.likes-icon {
+    margin: auto;
+}

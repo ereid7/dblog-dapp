@@ -1,30 +1,26 @@
-import logo from './logo.svg';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header';
 import PostPage from './components/PostPage/PostPage';
 import BlogPage from './components/BlogPage/BlogPage';
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Web3 from 'web3';
 
-class App extends Component {
+const App = () => {
+  const [account, setAccount] = useState('0x0')
+  const [isConnected, setIsConnected] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  // TODO fix this
-  async componentWillMount() {
-    await this.loadWeb3();
-    this.setupWalletListeners();
-  }
-
-  async loadWeb3() {
+  const loadWeb3 = async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum)
       await window.ethereum.enable()
 
       const accounts = await window.web3.eth.getAccounts()
 
-      this.setState({ account: accounts[0]})
-      this.setState({ isConnected: true })
+      setAccount(accounts[0])
+      setIsConnected(true)
     }
     else if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider)
@@ -34,55 +30,49 @@ class App extends Component {
     }
   }
 
-  setupWalletListeners() {
+  loadWeb3()
+  
+  const setupWalletListeners = () => {
     window.ethereum.on('accountsChanged', (accounts) => {
       //Time to reload your interface with accounts[0]!
       if (accounts.length > 0) {
-        this.setState({ account: accounts[0]})
-        this.setState({ isConnected: true })
+        setAccount(accounts[0])
+        setIsConnected(true)
       } else {
-        this.setState({ account: "0x0"})
-        this.setState({ isConnected: false })
+        setAccount('0x0')
+        setIsConnected(false)
       }
     })
-
   }
 
-  loadAccounts = async () => {
+  const loadAccounts = async () => {
     try {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      this.setState({ account: accounts[0] })
-      this.setState({ isConnected: true })
+      setAccount(accounts[0])
+      setIsConnected(true)
     } catch (err) {
-      this.setState({ isConnected: false })
+      setIsConnected(false)
     }
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      account: '0x0',
-      isConnected: false,
-      loading: true,
-    }
-  }
+  useEffect(() => {
+		setupWalletListeners()
+	}, [])
 
-  render() {
-    return (
-      <div className="App">
-        <Header connectWallet={this.loadAccounts} isConnected={this.state.isConnected} account={this.state.account} />
-        <BrowserRouter>
-          <Switch>
-            <Route path="/post" component={PostPage} />
-            <Route path="/blog" component={BlogPage} />
-            <Route path="*" component = {() => "404 NOT FOUND"} />
-          </Switch>
-        </BrowserRouter>
-      </div>
-    )
-  }
+  return (
+    <div className="App">
+      <Header connectWallet={loadAccounts} isConnected={isConnected} account={account} />
+      <BrowserRouter>
+        <Switch>
+          <Route path="/post" component={PostPage} />
+          <Route path="/blog" component={BlogPage} /> 
+          <Route path="*" component = {() => "404 NOT FOUND"} />
+        </Switch>
+      </BrowserRouter>
+    </div>
+  )
 }
 
-export default App;
+export default App

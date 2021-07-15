@@ -1,77 +1,77 @@
-import React, { Component } from "react"
+import React, { useState } from "react"
 import "./PostPage.css"
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
-import Container from 'react-bootstrap/Container'
-import TagList from '../Tags/TagList';
+import DBlogContract from '../../abis/DBlogContract.json'
 import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
-import { withRouter } from 'react-router-dom';
+import { useEffect } from "react"
+import { useHistory } from "react-router-dom";
+import { useQuery } from '../../utils/route-utils'
+import TagList from '../Tags/TagList';
 
-// TODO remove duplicate styling between pages
-class PostPage extends Component {
 
-  async componentDidMount() {
-    const search = this.props.location.search;    
-    const postId = new URLSearchParams(search).get("postId");
+const PostPage = (props) => {
+	const history = useHistory();
+  const web3 = window.web3
 
+  const [postId, setPostId] = useState(useQuery().get("id"))
+  //const [postContract,]
+  const [postNum, setPostNum] = useState(0)
+	const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [likeCount, setLikeCount] = useState(0)
+  const [blogName, setBlogName] = useState('')
+	const [tagList, setTagList] = useState([])
+
+
+	const fetchPostData = async () => {
+    //const networkId = await web3.eth.net.getId();
+    // TODO if contract doesn't exist, navigate to read
+    const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, postId)
+    const blogAddress = await dBlogPostContract.methods.blog().call()
+    const dBlogContract = new web3.eth.Contract(DBlogContract.abi, blogAddress)
+
+    setTitle(await dBlogPostContract.methods.title().call())
+    setContent(await dBlogPostContract.methods.content().call())
+    setLikeCount(await dBlogPostContract.methods.likeCount().call())
+    setPostNum(await dBlogPostContract.methods.postNum().call())
+    setBlogName(await dBlogContract.methods.blogName().call())
+    // TEMP
+    setTagList(["tag1", "tag2"])
+  }
+
+	useEffect(() => {
     if (postId == null) {
-      this.props.history.push('/read')
+      history.push('/read')
     }
     else {
-      this.setState({ postId: postId })
-      await this.fetchPostData(postId)
+      fetchPostData()
     }
-  }
+	}, [history, postId])
 
-  async fetchPostData(postId) {
-    const web3 = window.web3
-    const testAddress = postId
-
-    //const networkId = await web3.eth.net.getId();
-    // TODO if contract doesn't exist, navigate to rea
-    const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, testAddress)
-    this.setState({ dBlogPostContract })
-
-    const title = await dBlogPostContract.methods.title().call()
-    this.setState({ title })
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      postId: "",
-      dBlogPostContract: {},
-      title: "",
-      tagList: ["tag1", "tag2"]
-    }
-  }
-
-  render() {
-    return (
-      <div className="post-page">
-        <div className="post-page-container">
-          <h1 className="post-title">{this.state.title}</h1>
-          <div className="post-subtitle-container">
-            <p>Evan's Blog - Post 20 - 5/12/2021</p>
-          </div>
-          <div className="post-content">
-          When I was growing up in the 1960s and 70s, the chief fear on behalf of literary culture was that television was going to destroy it. What if we were becoming a nation of passive, glassy-eyed couch potatoes — mindless consumers of numbing video entertainment?
-To some extent, that happened. Yet we survived! And then something came along that challenged TV. The Web was a two-way medium. Each consumer was also a potential creator or contributor in a way that never happened, couldn’t happen, with television. That’s a huge transformation of our media landscape, And we’re still just getting our heads around it.
-          </div>
-          <br />
-          <TagList tagList={this.state.tagList}></TagList>
-          <div className="post-footer-container">
-            <div className="likes-display">
-              <LikeIcon height="25px" width="25px" />
-              <p className="likes-value">{0}</p>
-            </div>
-          </div>
-          <hr />
+  return (
+		<div className="post-page">
+      <div className="post-page-container">
+        <h1 className="post-title">{title}</h1>
+        <div className="post-subtitle-container">
+          {/* TODO add blog click. seperate these into different elements */}
+          <p>{blogName} - Post {postNum} - 5/12/2021</p>
         </div>
+        <div className="post-content">
+        {content}
+        </div>
+        <br />
+        <TagList tagList={tagList}></TagList>
+        <div className="post-footer-container">
+          <div className="likes-display">
+            <LikeIcon height="25px" width="25px" />
+            <p className="likes-value">{likeCount}</p>
+          </div>
+        </div>
+        <hr />
       </div>
-    );
-  }
+    </div>
+  )
 }
 
-export default withRouter(PostPage)
+
+export default PostPage
