@@ -11,24 +11,23 @@ const PostList = (props) => {
 		history.push(`/post?id=${address}`);
 	}
 	
-// TODO create postList item, take in postList as props
   return (
 		<div className="blog-post-list">
 		{
 			props.postList.map((value, index) => {
 				return (
-					<div className='post-item'>
+					<div className='post-item' key={`postlistitem_${index}`}>
 						<h3 className="post-name" onClick={() => navigateToPost(value.address)}>{value.title}</h3>
 						<div className="post-item-info">
 							<div className="post-label">
 								Jun 27
 							</div>
 							<div className="post-label">
-								Post 0
+								Post {value.postNum}
 							</div>
 							<div className="likes-display">
            			<LikeIcon className="likes-icon" />
-           			<p className="likes-value">{0}</p>
+           			<p className="likes-value">{value.likes}</p>
          			</div>
 						</div>
 					</div>

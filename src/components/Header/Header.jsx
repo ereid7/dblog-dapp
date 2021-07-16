@@ -19,7 +19,7 @@ const Header = (props) => {
       <Navbar.Brand className="header-title">DBlog</Navbar.Brand>
       <Nav defaultActiveKey="/home" as="ul">
         <Nav.Item as="li">
-          <Nav.Link href="/home">Read</Nav.Link>
+          <Nav.Link href="/read">Read</Nav.Link>
         </Nav.Item>
         <Nav.Item as="li">
           <Nav.Link eventKey="link-1">Publish</Nav.Link>

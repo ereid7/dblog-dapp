@@ -2,8 +2,9 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header';
-import PostPage from './components/PostPage/PostPage';
-import BlogPage from './components/BlogPage/BlogPage';
+import PostPage from './pages/PostPage/PostPage';
+import BlogPage from './pages/BlogPage/BlogPage';
+import ReadPage from './pages/ReadPage/ReadPage';
 import React, { useState, useEffect } from "react";
 import Web3 from 'web3';
 
@@ -66,6 +67,7 @@ const App = () => {
       <Header connectWallet={loadAccounts} isConnected={isConnected} account={account} />
       <BrowserRouter>
         <Switch>
+          <Route path="/read" component={ReadPage} />
           <Route path="/post" component={PostPage} />
           <Route path="/blog" component={BlogPage} /> 
           <Route path="*" component = {() => "404 NOT FOUND"} />

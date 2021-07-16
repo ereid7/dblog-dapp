@@ -1,0 +1,17 @@
+.read-page-container {
+  position:relative;
+  margin: 0 auto;
+  max-width: 700px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow-wrap: break-word;
+}
+
+.read-title {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.search-address-input {
+  margin-top: 40px;
+}
