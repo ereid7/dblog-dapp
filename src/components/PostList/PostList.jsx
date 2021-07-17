@@ -1,7 +1,5 @@
-import React, { useState } from "react"
 import "./PostList.css"
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
-import { useEffect } from "react"
 import { useHistory } from "react-router-dom";
 
 const PostList = (props) => {

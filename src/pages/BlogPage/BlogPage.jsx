@@ -20,53 +20,55 @@ const BlogPage = (props) => {
 		tagList:  [],
 		postList: []
 	})
-	const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
+	//const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
 
-	const fetchBlogData = async () => {
-		const blogContract = new web3.eth.Contract(DBlogContract.abi, blogData.blogId)
-		//setBlogContract(blogContract);
-
-		const title = await blogContract.methods.blogName().call()
-		const postCount = await blogContract.methods.postCount().call()
-		// taglist
-
-
-		var postList = []
-		for (var i = 0; i < postCount; i++) {
-			const postAddress = await blogContract.methods.postMap(i + 1).call()
-
-		  const postContract = new web3.eth.Contract(DBlogPostContract.abi, postAddress)
-		  const postTitle = await postContract.methods.title().call() 
-			const postNum = await postContract.methods.postNum().call()
-			const postLikes = await postContract.methods.likeCount().call()
-			// TODO store creationdate
-			var postListItem = {
-				address: postAddress,
-				title: postTitle,
-				postNum: postNum,
-				likes: postLikes
-			}
-			postList.push(postListItem);
-		}
-
-		setPartBlogData({
-			title: title,
-			postCount: postCount,
-			tagList: [],
-			postList: postList
-		})
-
-		setIsLoading(false)
-	}
 	
 	useEffect(() => {
 		if (blogData.blogId == null) {
       history.push('/read')
     }
     else {
+			const fetchBlogData = async () => {
+				const blogContract = new web3.eth.Contract(DBlogContract.abi, blogData.blogId)
+				//setBlogContract(blogContract);
+		
+				const title = await blogContract.methods.blogName().call()
+				const postCount = await blogContract.methods.postCount().call()
+				// taglist
+		
+		
+				var postList = []
+				for (var i = 0; i < postCount; i++) {
+					const postAddress = await blogContract.methods.postMap(i + 1).call()
+		
+					const postContract = new web3.eth.Contract(DBlogPostContract.abi, postAddress)
+					const postTitle = await postContract.methods.title().call() 
+					const postNum = await postContract.methods.postNum().call()
+					const postLikes = await postContract.methods.likeCount().call()
+					// TODO store creationdate
+					var postListItem = {
+						address: postAddress,
+						title: postTitle,
+						postNum: postNum,
+						likes: postLikes
+					}
+					postList.push(postListItem);
+				}
+		
+				const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
+				setPartBlogData({
+					title: title,
+					postCount: postCount,
+					tagList: [],
+					postList: postList
+				})
+		
+				setIsLoading(false)
+			}
+
       fetchBlogData()
     }
-	}, [history, blogData, isLoading]) //fetchBlogData // TODO use use callback
+	}, [history, blogData, web3]) //fetchBlogData // TODO use use callback
  
 	return (
 		<Page isLoading={isLoading}>

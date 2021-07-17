@@ -3,7 +3,7 @@ import "./PostPage.css"
 import DBlogContract from '../../abis/DBlogContract.json'
 import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
-import { useEffect, useCallback } from "react"
+import { useEffect } from "react"
 import { useHistory } from "react-router-dom";
 import { useQuery } from '../../utils/route-utils'
 import TagList from '../../components/Tags/TagList';
@@ -24,29 +24,29 @@ const PostPage = (props) => {
     blogName: '',
     tagList: []
   })
-  const setPartPostData = (partialData) => setPostData({ ...postData, ...partialData })
+  //const setPartPostData = (partialData) => setPostData({ ...postData, ...partialData })
 
-	const fetchPostData = useCallback(async () => {
-    //const networkId = await web3.eth.net.getId();
-    // TODO if contract doesn't exist, navigate to read
-    const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, postData.postId)
-    const blogAddress = await dBlogPostContract.methods.blog().call()
-    const dBlogContract = new web3.eth.Contract(DBlogContract.abi, blogAddress)
+	// const fetchPostData = async () => {
+  //   //const networkId = await web3.eth.net.getId();
+  //   // TODO if contract doesn't exist, navigate to read
+  //   const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, postData.postId)
+  //   const blogAddress = await dBlogPostContract.methods.blog().call()
+  //   const dBlogContract = new web3.eth.Contract(DBlogContract.abi, blogAddress)
 
-    // TODO maybe just set address if its all we need
-    setBlogContract(dBlogContract)
+  //   // TODO maybe just set address if its all we need
+  //   setBlogContract(dBlogContract)
 
-    setPartPostData({
-      postNum: await dBlogPostContract.methods.postNum().call(),
-      title: await dBlogPostContract.methods.title().call(),
-      content: await dBlogPostContract.methods.content().call(),
-      likeCount: await dBlogPostContract.methods.likeCount().call(),
-      blogName: await dBlogContract.methods.blogName().call(),
-      tagList: []
-    })
+  //   setPartPostData({
+  //     postNum: await dBlogPostContract.methods.postNum().call(),
+  //     title: await dBlogPostContract.methods.title().call(),
+  //     content: await dBlogPostContract.methods.content().call(),
+  //     likeCount: await dBlogPostContract.methods.likeCount().call(),
+  //     blogName: await dBlogContract.methods.blogName().call(),
+  //     tagList: []
+  //   })
 
-    setIsLoading(false)
-  })
+  //   setIsLoading(false)
+  // }
 
   const onBlogSelected = (event) => {
     event.preventDefault()
@@ -60,9 +60,32 @@ const PostPage = (props) => {
       history.push('/read')
     }
     else {
+      const fetchPostData = async () => {
+        //const networkId = await web3.eth.net.getId();
+        // TODO if contract doesn't exist, navigate to read
+        const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, postData.postId)
+        const blogAddress = await dBlogPostContract.methods.blog().call()
+        const dBlogContract = new web3.eth.Contract(DBlogContract.abi, blogAddress)
+    
+        // TODO maybe just set address if its all we need
+        setBlogContract(dBlogContract)
+    
+        const setPartPostData = (partialData) => setPostData({ ...postData, ...partialData })
+        setPartPostData({
+          postNum: await dBlogPostContract.methods.postNum().call(),
+          title: await dBlogPostContract.methods.title().call(),
+          content: await dBlogPostContract.methods.content().call(),
+          likeCount: await dBlogPostContract.methods.likeCount().call(),
+          blogName: await dBlogContract.methods.blogName().call(),
+          tagList: []
+        })
+    
+        setIsLoading(false)
+      }
+
       fetchPostData()
     }
-	}, [history, postData])
+	}, [history, postData, web3])
 
   return (
 		<Page isLoading={isLoading}>
@@ -70,7 +93,7 @@ const PostPage = (props) => {
         <h1 className="post-title">{postData.title}</h1>
         <div className="subtitle-container">
           <div onClick={onBlogSelected} className="subtitle-item clickable">
-            <a>{postData.blogName}</a>
+            {postData.blogName}
           </div>
           <div className="subtitle-item">
             Post {postData.postNum}

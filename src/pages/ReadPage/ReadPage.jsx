@@ -3,7 +3,6 @@ import "./ReadPage.css"
 import DBlogContract from '../../abis/DBlogContract.json'
 import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { useHistory } from "react-router-dom";
-import { useQuery } from '../../utils/route-utils'
 import { isAddressInstanceOfContract } from '../../utils/web3-utils'
 import Page from '../../components/Page/Page'
 

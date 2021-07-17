@@ -5,8 +5,7 @@ import Header from './components/Header/Header';
 import PostPage from './pages/PostPage/PostPage';
 import BlogPage from './pages/BlogPage/BlogPage';
 import ReadPage from './pages/ReadPage/ReadPage';
-import React, { useState, useEffect } from "react";
-import Web3 from 'web3';
+import React from "react";
 import { useWeb3 } from './hooks/web3'
 
 const App = () => {
