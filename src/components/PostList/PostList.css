@@ -1,5 +1,7 @@
 .blog-post-list {
     text-align: left;
+    height: 60vh;
+    overflow-y: scroll;
 }
 
 
@@ -18,7 +20,7 @@
 }
 
 .post-label {
-    width: 50px;
+    min-width: 50px;
     height: 30px;
     margin-top: 5px;
     margin-right: 10px;

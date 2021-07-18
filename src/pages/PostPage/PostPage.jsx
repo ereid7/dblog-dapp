@@ -1,10 +1,11 @@
 import "./PostPage.css"
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"
 import { useQuery } from '../../utils/routeUtils'
-import TagList from '../../components/Tags/TagList';
+import TagList from '../../components/Tags/TagList'
 import Page from '../../components/Page/Page'
 import { usePostData } from '../../hooks/usePostData'
+import MDEditor from "@uiw/react-md-editor"
 
 // TODO get id param as prop
 const PostPage = (props) => {
@@ -40,7 +41,7 @@ const PostPage = (props) => {
           </div>
         </div>
         <div className="post-content">
-          {postData.content}
+          <MDEditor.Markdown source={postData.content} />
         </div>
         <br />
         <TagList tagList={postData.tagList}></TagList>

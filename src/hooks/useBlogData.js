@@ -22,8 +22,8 @@ export const useBlogData = blogId => {
       const postAddress = await dBlogContract.postMap(1)
   
       var postList = []
-      for (var i = 0; i < postCount; i++) {
-        const postAddress = await dBlogContract.postMap(i + 1)
+      for (var i = postCount; i > 0; i--) {
+        const postAddress = await dBlogContract.postMap(i)
   
         const postContract = getDBlogPostContract(postAddress)
         const postTitle = await postContract.title() 

@@ -1,0 +1,17 @@
+.submit-btn {
+  margin-top: 20px;
+}
+
+.createpost-title {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.page-container {
+  position:relative;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow-wrap: break-word;
+}

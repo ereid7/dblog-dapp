@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header';
 import PostPage from './pages/PostPage/PostPage';
 import BlogPage from './pages/BlogPage/BlogPage';
+import CreateBlogPage from './pages/CreateBlogPage/CreateBlogPage';
+import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
 import ReadPage from './pages/ReadPage/ReadPage';
 import { useState, useEffect } from "react";
 import {
@@ -42,7 +44,9 @@ const App = () => {
         <Switch>
           <Route path="/read" component={ReadPage} />
           <Route path="/post" component={PostPage} />
-          <Route path="/blog" component={BlogPage} /> 
+          <Route path="/blog" component={BlogPage} />
+          <Route path="/createblog" component={CreateBlogPage} />
+          <Route path="/createpost" component={CreatePostPage} />
           <Route path="*" component = {() => "404 NOT FOUND"} />
         </Switch>
       </BrowserRouter>

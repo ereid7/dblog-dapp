@@ -1,5 +1,4 @@
 import "./BlogPage.css"
-import { useEffect } from "react"
 import { useQuery } from '../../utils/routeUtils'
 import { useHistory } from "react-router-dom";
 import { useBlogData } from '../../hooks/useBlogData'
@@ -26,6 +25,5 @@ const BlogPage = (props) => {
 		</Page>
 	)
 }
-
 
 export default BlogPage

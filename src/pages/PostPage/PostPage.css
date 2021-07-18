@@ -1,11 +1,3 @@
-.post-page {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    overflow: scroll;
-}
 
 .post-title {
     margin-top: 20px;
