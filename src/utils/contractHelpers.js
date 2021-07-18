@@ -16,14 +16,6 @@ export const getDBlogPostContract = (address, signer) => {
 
 // HELPERS
 
-// returns the checksummed address if the address is valid, otherwise returns false
-export function isAddress(value) {
-  try {
-    return ethers.getAddress(value)
-  } catch {
-    return false
-  }
-}
 // account is not optional
 export function getSigner(library, account) {
   return library.getSigner(account).connectUnchecked()
@@ -37,4 +29,9 @@ export function getProviderOrSigner(library, account) {
 export const getContract = (abi, address, signer) => {
   const signerOrProvider = signer ?? simpleRpcProvider
   return new ethers.Contract(address, abi, signerOrProvider)
+}
+
+export const isAddressInstanceOfContract = async (address, contract) => {
+  const code = await simpleRpcProvider.getCode(address)
+  return contract.deployedBytecode === code
 }

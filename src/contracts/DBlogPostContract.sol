@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "./DBlogContract.sol";
+import "../contracts/DBlogContract.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract DBlogPostContract is Ownable {
@@ -41,7 +41,7 @@ contract DBlogPostContract is Ownable {
         title = _postTitle;
         content = _postContent;
         tags = _tags;
-        likeCount = 0;
+        likeCount = 5;
         commentCount = 0;
         commentsEnabled = _commentsEnabled;
     }

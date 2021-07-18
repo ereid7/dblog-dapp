@@ -8,9 +8,9 @@ import { ethers } from 'ethers';
 
 export const getLibrary = (provider) => {
   //window.web3 = new ethers.providers.Web3Provider(provider)
-  const library = new ethers.providers.Web3Provider(provider)
-  library.pollingInterval = 12000
-  return library
+  window.web3 = new ethers.providers.Web3Provider(provider)
+  window.web3.pollingInterval = 12000
+  return window.web3
 }
 
 ReactDOM.render(

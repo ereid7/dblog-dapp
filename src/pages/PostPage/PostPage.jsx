@@ -1,16 +1,9 @@
-import React, { useState } from "react"
 import "./PostPage.css"
-import DBlogContract from '../../abis/DBlogContract.json'
-import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
-import { useEffect } from "react"
 import { useHistory } from "react-router-dom";
-import { useContract, useDBlogPostContract, useDBlogContract } from '../../hooks/useContract'
-import { useQuery } from '../../utils/route-utils'
+import { useQuery } from '../../utils/routeUtils'
 import TagList from '../../components/Tags/TagList';
 import Page from '../../components/Page/Page'
-import { getDBlogContract } from "../../utils/contractHelpers"
-import { getNumber } from '../../utils/numberHelpers'
 import { usePostData } from '../../hooks/usePostData'
 
 // TODO get id param as prop

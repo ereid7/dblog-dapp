@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { getDBlogContract, getDBlogPostContract } from "../utils/contractHelpers"
 import { useDBlogContract, useDBlogPostContract } from '../hooks/useContract'
-import { getNumber } from '../utils/numberHelpers'
 
 export const useBlogData = blogId => {
   const [isLoading, setIsLoading] = useState(true)
@@ -13,13 +12,14 @@ export const useBlogData = blogId => {
 		postList: []
 	})
   const dBlogContract = useDBlogContract(blogData.blogId)
+  console.log(dBlogContract)
+
 
   useEffect(() => {
     const fetchBlogData = async () => {
       const title = await dBlogContract.blogName()
-      const postCount = await dBlogContract.postCount()
-      console.log(postCount.toNumber())
-  
+      const postCount = (await dBlogContract.postCount()).toNumber()
+      const postAddress = await dBlogContract.postMap(1)
   
       var postList = []
       for (var i = 0; i < postCount; i++) {
@@ -28,8 +28,8 @@ export const useBlogData = blogId => {
         const postContract = getDBlogPostContract(postAddress)
         const postTitle = await postContract.title() 
         
-        const postNum = getNumber(await postContract.postNum())
-        const postLikes = getNumber(await postContract.likeCount())
+        const postNum = (await postContract.postNum()).toNumber()
+        const postLikes = (await postContract.likeCount()).toNumber()
         // TODO store creationdate
         var postListItem = {
           address: postAddress,
@@ -37,6 +37,7 @@ export const useBlogData = blogId => {
           postNum: postNum,
           likes: postLikes
         }
+        console.log(postListItem)
         postList.push(postListItem);
       }
   

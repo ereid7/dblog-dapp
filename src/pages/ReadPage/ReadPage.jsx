@@ -3,8 +3,9 @@ import "./ReadPage.css"
 import DBlogContract from '../../abis/DBlogContract.json'
 import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { useHistory } from "react-router-dom";
-import { isAddressInstanceOfContract } from '../../utils/web3-utils'
+import { isAddressInstanceOfContract } from '../../utils/contractHelpers'
 import Page from '../../components/Page/Page'
+import { ethers } from "ethers";
 
 const ReadPage = (props) => {
 	const history = useHistory();
@@ -14,8 +15,8 @@ const ReadPage = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    var isAddress = web3.utils.isAddress(addressInput)
-    if (isAddress) {
+    var valid = ethers.utils.isAddress(addressInput)
+    if (valid) {
       var isBlog = await isAddressInstanceOfContract(addressInput, DBlogContract)
       if (isBlog) {
         history.push(`/blog?id=${addressInput}`)

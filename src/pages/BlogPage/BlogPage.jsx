@@ -1,9 +1,6 @@
-import React, { useState } from "react"
 import "./BlogPage.css"
-import DBlogContract from '../../abis/DBlogContract.json'
-import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { useEffect } from "react"
-import { useQuery } from '../../utils/route-utils'
+import { useQuery } from '../../utils/routeUtils'
 import { useHistory } from "react-router-dom";
 import { useBlogData } from '../../hooks/useBlogData'
 import PostList from '../../components/PostList/PostList';
@@ -13,17 +10,11 @@ const BlogPage = (props) => {
 	const history = useHistory()
 	const blogId = useQuery().get("id")
 
+	if (blogId == null) {
+		history.push('/read')
+	}
+
 	const [blogData, isLoading] = useBlogData(blogId)
-
-	
-	useEffect(() => {
-		if (blogData.blogId == null) {
-      history.push('/read')
-    }
-    else {
-
-    }
-	}, []) //fetchBlogData // TODO use use callback
  
 	return (
 		<Page isLoading={isLoading}>

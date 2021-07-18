@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { getDBlogContract } from "../utils/contractHelpers"
 import { useDBlogPostContract } from '../hooks/useContract'
-import { getNumber } from '../utils/numberHelpers'
 
 export const usePostData = postId => {
   const [isLoading, setIsLoading] = useState(true)
@@ -21,11 +20,11 @@ export const usePostData = postId => {
     const fetchPostData = async () => {
       const blogAddress = await dBlogPostContract.blog()
       const dBlogContract = getDBlogContract(blogAddress)
-      const postNum = getNumber(await dBlogPostContract.postNum())// TODO why bignumber
+      const postNum = (await dBlogPostContract.postNum()).toNumber()
       const title = await dBlogPostContract.title()
       const content = await dBlogPostContract.content()
       const blogName = await dBlogContract.blogName()
-      const likeCount = getNumber(await dBlogPostContract.likeCount())
+      const likeCount = (await dBlogPostContract.likeCount()).toNumber()
 
       const setPartPostData = (partialData) => setPostData({ ...postData, ...partialData })
       setPartPostData({
