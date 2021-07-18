@@ -5,22 +5,15 @@ import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { useEffect } from "react"
 import { useQuery } from '../../utils/route-utils'
 import { useHistory } from "react-router-dom";
+import { useBlogData } from '../../hooks/useBlogData'
 import PostList from '../../components/PostList/PostList';
 import Page from '../../components/Page/Page'
 
 const BlogPage = (props) => {
-	const history = useHistory();
-	const web3 = window.web3;
+	const history = useHistory()
+	const blogId = useQuery().get("id")
 
-	const [isLoading, setIsLoading] = useState(true)
-	const [blogData, setBlogData] = useState({
-		blogId: useQuery().get("id"),
-		title: '',
-		postCount: 0,
-		tagList:  [],
-		postList: []
-	})
-	//const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
+	const [blogData, isLoading] = useBlogData(blogId)
 
 	
 	useEffect(() => {
@@ -28,47 +21,9 @@ const BlogPage = (props) => {
       history.push('/read')
     }
     else {
-			const fetchBlogData = async () => {
-				const blogContract = new web3.eth.Contract(DBlogContract.abi, blogData.blogId)
-				//setBlogContract(blogContract);
-		
-				const title = await blogContract.methods.blogName().call()
-				const postCount = await blogContract.methods.postCount().call()
-				// taglist
-		
-		
-				var postList = []
-				for (var i = 0; i < postCount; i++) {
-					const postAddress = await blogContract.methods.postMap(i + 1).call()
-		
-					const postContract = new web3.eth.Contract(DBlogPostContract.abi, postAddress)
-					const postTitle = await postContract.methods.title().call() 
-					const postNum = await postContract.methods.postNum().call()
-					const postLikes = await postContract.methods.likeCount().call()
-					// TODO store creationdate
-					var postListItem = {
-						address: postAddress,
-						title: postTitle,
-						postNum: postNum,
-						likes: postLikes
-					}
-					postList.push(postListItem);
-				}
-		
-				const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
-				setPartBlogData({
-					title: title,
-					postCount: postCount,
-					tagList: [],
-					postList: postList
-				})
-		
-				setIsLoading(false)
-			}
 
-      fetchBlogData()
     }
-	}, [history, blogData, web3]) //fetchBlogData // TODO use use callback
+	}, []) //fetchBlogData // TODO use use callback
  
 	return (
 		<Page isLoading={isLoading}>

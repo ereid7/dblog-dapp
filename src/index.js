@@ -2,11 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+//import { getLibrary } from './utils/web3React'
+import { Web3ReactProvider } from '@web3-react/core';
+import { ethers } from 'ethers';
+
+export const getLibrary = (provider) => {
+  //window.web3 = new ethers.providers.Web3Provider(provider)
+  const library = new ethers.providers.Web3Provider(provider)
+  library.pollingInterval = 12000
+  return library
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <App />
+    </Web3ReactProvider>,
   document.getElementById('root')
 );
 

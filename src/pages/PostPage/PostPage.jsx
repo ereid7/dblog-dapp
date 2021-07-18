@@ -5,87 +5,31 @@ import DBlogPostContract from '../../abis/DBlogPostContract.json'
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
 import { useEffect } from "react"
 import { useHistory } from "react-router-dom";
+import { useContract, useDBlogPostContract, useDBlogContract } from '../../hooks/useContract'
 import { useQuery } from '../../utils/route-utils'
 import TagList from '../../components/Tags/TagList';
 import Page from '../../components/Page/Page'
+import { getDBlogContract } from "../../utils/contractHelpers"
+import { getNumber } from '../../utils/numberHelpers'
+import { usePostData } from '../../hooks/usePostData'
 
+// TODO get id param as prop
 const PostPage = (props) => {
-	const history = useHistory();
-  const web3 = window.web3
+  const history = useHistory();
+  const postId = useQuery().get("id")
 
-  const [blogContract, setBlogContract] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
-  const [postData, setPostData] = useState({
-    postId: useQuery().get("id"),
-    postNum: 0,
-    title: '',
-    content: '',
-    likeCount: 0,
-    blogName: '',
-    tagList: []
-  })
-  //const setPartPostData = (partialData) => setPostData({ ...postData, ...partialData })
-
-	// const fetchPostData = async () => {
-  //   //const networkId = await web3.eth.net.getId();
-  //   // TODO if contract doesn't exist, navigate to read
-  //   const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, postData.postId)
-  //   const blogAddress = await dBlogPostContract.methods.blog().call()
-  //   const dBlogContract = new web3.eth.Contract(DBlogContract.abi, blogAddress)
-
-  //   // TODO maybe just set address if its all we need
-  //   setBlogContract(dBlogContract)
-
-  //   setPartPostData({
-  //     postNum: await dBlogPostContract.methods.postNum().call(),
-  //     title: await dBlogPostContract.methods.title().call(),
-  //     content: await dBlogPostContract.methods.content().call(),
-  //     likeCount: await dBlogPostContract.methods.likeCount().call(),
-  //     blogName: await dBlogContract.methods.blogName().call(),
-  //     tagList: []
-  //   })
-
-  //   setIsLoading(false)
-  // }
+  if (postId == null) {
+    history.push('/read')
+  }
+  
+  const [postData, isLoading] = usePostData(postId)
 
   const onBlogSelected = (event) => {
     event.preventDefault()
 
-    console.log(blogContract)
-    history.push(`/blog?id=${blogContract._address}`)
+    // TODO store this in data
+    history.push(`/blog?id=${postData.blogAddress}`)
   }
-
-	useEffect(() => {
-    if (postData.postId == null) {
-      history.push('/read')
-    }
-    else {
-      const fetchPostData = async () => {
-        //const networkId = await web3.eth.net.getId();
-        // TODO if contract doesn't exist, navigate to read
-        const dBlogPostContract = new web3.eth.Contract(DBlogPostContract.abi, postData.postId)
-        const blogAddress = await dBlogPostContract.methods.blog().call()
-        const dBlogContract = new web3.eth.Contract(DBlogContract.abi, blogAddress)
-    
-        // TODO maybe just set address if its all we need
-        setBlogContract(dBlogContract)
-    
-        const setPartPostData = (partialData) => setPostData({ ...postData, ...partialData })
-        setPartPostData({
-          postNum: await dBlogPostContract.methods.postNum().call(),
-          title: await dBlogPostContract.methods.title().call(),
-          content: await dBlogPostContract.methods.content().call(),
-          likeCount: await dBlogPostContract.methods.likeCount().call(),
-          blogName: await dBlogContract.methods.blogName().call(),
-          tagList: []
-        })
-    
-        setIsLoading(false)
-      }
-
-      fetchPostData()
-    }
-	}, [history, postData, web3])
 
   return (
 		<Page isLoading={isLoading}>
