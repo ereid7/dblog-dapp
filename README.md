@@ -1,4 +1,4 @@
-# Decentralized Blogging Application
+# (WIP) Decentralized Blogging Application
 
 A decentralized blogging web application build with truffle, react, web3-react, ethers.
 
