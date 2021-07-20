@@ -1,0 +1,25 @@
+.publish-title {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.publish-page-container {
+  position:relative;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow-wrap: break-word;
+}
+
+.bloglist-container {
+  margin-top: 40px;
+  padding: 15px 20px;
+  background-color: #F8F9FA;
+  border-radius: 8px;
+}
+
+.bloglist-item {
+  margin: 15px 0px 15px 0px;
+}
+

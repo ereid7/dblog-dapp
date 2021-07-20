@@ -3,11 +3,11 @@
   text-align: center;
 }
 
-.page-container {
+.blog-page-container {
   position:relative;
   margin: 0 auto;
-  max-width: 700px;
-  padding-left: 10px;
-  padding-right: 10px;
+  max-width: 1200px;
+  padding-left: 20px;
+  padding-right: 20px;
   overflow-wrap: break-word;
 }

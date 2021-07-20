@@ -7,7 +7,6 @@ import Page from '../../components/Page/Page'
 import { usePostData } from '../../hooks/usePostData'
 import MDEditor from "@uiw/react-md-editor"
 
-// TODO get id param as prop
 const PostPage = (props) => {
   const history = useHistory();
   const postId = useQuery().get("id")

@@ -7,6 +7,7 @@ import BlogPage from './pages/BlogPage/BlogPage';
 import CreateBlogPage from './pages/CreateBlogPage/CreateBlogPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
 import ReadPage from './pages/ReadPage/ReadPage';
+import PublishPage from './pages/PublishPage/PublishPage';
 import { useState, useEffect } from "react";
 import {
   useWeb3React, 
@@ -43,6 +44,7 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route path="/read" component={ReadPage} />
+          <Route path="/publish" component={PublishPage} />
           <Route path="/post" component={PostPage} />
           <Route path="/blog" component={BlogPage} />
           <Route path="/createblog" component={CreateBlogPage} />

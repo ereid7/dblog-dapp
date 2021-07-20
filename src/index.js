@@ -9,7 +9,7 @@ import { ethers } from 'ethers';
 export const getLibrary = (provider) => {
   //window.web3 = new ethers.providers.Web3Provider(provider)
   window.web3 = new ethers.providers.Web3Provider(provider)
-  window.web3.pollingInterval = 12000
+  window.web3.pollingInterval = 500
   return window.web3
 }
 

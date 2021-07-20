@@ -9,7 +9,6 @@ import { useEffect } from 'react'
 
 
 // todo verify wallet is connected
-
 const CreatePostPage = (props) => {
 
   const history = useHistory();
@@ -63,7 +62,7 @@ const CreatePostPage = (props) => {
 
   return (
     <Page >
-      <div className="page-container">
+      <div className="createpost-page-container">
         <h1 className="createpost-title">Create Post</h1>
         <div className="subtitle-container">
           <div onClick={onBlogSelected} className="subtitle-item clickable">
@@ -86,7 +85,7 @@ const CreatePostPage = (props) => {
 
         <MDEditor value={value} onChange={onContentChanged} />
 
-        <button disabled={isLoading} onClick={onRequestPublish} className="submit-btn btn btn-primary btn-block btn-lg">Publish</button>
+        <button disabled={isLoading} onClick={onRequestPublish} className="submit-btn btn btn-secondary btn-block btn-lg">Publish</button>
       </div>
     </Page>
   )

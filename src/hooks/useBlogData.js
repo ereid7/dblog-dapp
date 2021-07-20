@@ -3,7 +3,7 @@ import { getDBlogContract, getDBlogPostContract } from "../utils/contractHelpers
 import { useDBlogContract, useDBlogPostContract } from '../hooks/useContract'
 
 export const useBlogData = blogId => {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 	const [blogData, setBlogData] = useState({
 		blogId: blogId,
 		title: '',
@@ -17,18 +17,24 @@ export const useBlogData = blogId => {
 
   useEffect(() => {
     const fetchBlogData = async () => {
+      const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
       const title = await dBlogContract.blogName()
       const postCount = (await dBlogContract.postCount()).toNumber()
       const postAddress = await dBlogContract.postMap(1)
+
+      setPartBlogData({
+        title: title,
+        postCount: postCount,
+        tagList: [],
+      })
   
       var postList = []
       for (var i = postCount; i > 0; i--) {
         const postAddress = await dBlogContract.postMap(i)
-  
         const postContract = getDBlogPostContract(postAddress)
         const postTitle = await postContract.title() 
         
-        const postNum = (await postContract.postNum()).toNumber()
+        const postNum = 0 //(await postContract.postNum()).toNumber()
         const postLikes = (await postContract.likeCount()).toNumber()
         // TODO store creationdate
         var postListItem = {
@@ -37,19 +43,17 @@ export const useBlogData = blogId => {
           postNum: postNum,
           likes: postLikes
         }
-        console.log(postListItem)
         postList.push(postListItem);
+
+        setPartBlogData({
+          title: title,
+          postCount: postCount,
+          postList: postList
+        })
       }
   
-      const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
-      setPartBlogData({
-        title: title,
-        postCount: postCount,
-        tagList: [],
-        postList: postList
-      })
   
-      setIsLoading(false)
+      //setIsLoading(false)
     }
 
     fetchBlogData()

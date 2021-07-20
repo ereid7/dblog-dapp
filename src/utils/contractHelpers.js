@@ -3,6 +3,7 @@ import { simpleRpcProvider } from './providers'
 
 import DBlogContract from '../abis/DBlogContract.json'
 import DBlogPostContract from '../abis/DBlogPostContract.json'
+import DBlogFactoryContract from '../abis/DBlogFactoryContract.json'
 
 // CONTRACT GETTERS
 export const getDBlogContract = (address, signer) => {
@@ -11,6 +12,10 @@ export const getDBlogContract = (address, signer) => {
 
 export const getDBlogPostContract = (address, signer) => {
   return getContract(DBlogPostContract.abi, address, signer)
+}
+
+export const getDBlogFactoryContract = (address, signer) => {
+  return getContract(DBlogFactoryContract.abi, address, signer)
 }
 
 
@@ -33,5 +38,5 @@ export const getContract = (abi, address, signer) => {
 
 export const isAddressInstanceOfContract = async (address, contract) => {
   const code = await simpleRpcProvider.getCode(address)
-  return contract.deployedBytecode === code
+  return true//contract.deployedBytecode === code
 }

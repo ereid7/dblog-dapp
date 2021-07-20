@@ -2,17 +2,9 @@ import "./Header.css";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
+import { formatAccountAddress } from "../../utils/stringHelpers";
 
 const Header = (props) => {
-
-  const formatAccountAddress = (account) => {
-    if (account !== undefined && account !== "0x0") {
-      var strLen = account.length;
-      return `${account.substr(0, 6)}...${account.substr(strLen - 4, strLen - 1)}`
-    } else {
-      return "";
-    }
-  }
 
   return (
     <Navbar className="justify-content-center" bg="light">
@@ -22,7 +14,7 @@ const Header = (props) => {
           <Nav.Link href="/read">Read</Nav.Link>
         </Nav.Item>
         <Nav.Item as="li">
-          <Nav.Link eventKey="link-1">Publish</Nav.Link>
+          <Nav.Link href="/publish" eventKey="link-1">Publish</Nav.Link>
         </Nav.Item>
       </Nav>
       <Navbar.Text className="account-address-label">

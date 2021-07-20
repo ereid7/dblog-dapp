@@ -1,5 +1,5 @@
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
-import { getContract, getDBlogContract, getDBlogPostContract } from '../utils/contractHelpers.js'
+import { getContract, getDBlogContract, getDBlogPostContract, getDBlogFactoryContract } from '../utils/contractHelpers.js'
 import { useMemo } from 'react'
 
 export const useDBlogContract = (address) => {
@@ -10,6 +10,11 @@ export const useDBlogContract = (address) => {
 export const useDBlogPostContract = (address) => {
   const { library } = useActiveWeb3React()
   return useMemo(() => getDBlogPostContract(address, library.getSigner()), [address, library])
+}
+
+export const useDBlogFactoryContract = (address) => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getDBlogFactoryContract(address, library.getSigner()), [address, library])
 }
 
 // returns null on errors

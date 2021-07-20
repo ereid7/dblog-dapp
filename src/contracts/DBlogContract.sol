@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "../contracts/DBlogPostContract.sol";
+import "./DBlogPostContract.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract DBlogContract is Ownable {
@@ -65,5 +65,4 @@ contract DBlogContract is Ownable {
     function setBlogName(string memory _blogName) onlyOwner public {
         blogName = _blogName;
     }
-    
 }

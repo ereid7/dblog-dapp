@@ -9,7 +9,6 @@ import { ethers } from "ethers";
 
 const ReadPage = (props) => {
 	const history = useHistory();
-  const web3 = window.web3
   const [addressInput, setAddressInput] = useState('')
 
   const handleSubmit = async (event) => {
@@ -27,16 +26,15 @@ const ReadPage = (props) => {
           history.push(`/post?id=${addressInput}`)
         }
         else {
-          // display not found
+          // todo display not found
         }
       }
     }
     else {
-      // invalid address
+      // todo display invalid address
     }
   }
-  
-  // TODO create blog factory contract which stores mappings of addresses to blogs
+
   // TODO check query as well on page load
   return (
 		<Page isLoading={false}>
