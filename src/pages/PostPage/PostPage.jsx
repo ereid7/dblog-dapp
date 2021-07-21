@@ -26,7 +26,7 @@ const PostPage = (props) => {
 
   return (
 		<Page isLoading={isLoading}>
-      <div className="post-page-container">
+      <div className="page-container">
         <h1 className="post-title">{postData.title}</h1>
         <div className="subtitle-container">
           <div onClick={onBlogSelected} className="subtitle-item clickable">

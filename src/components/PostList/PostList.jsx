@@ -1,6 +1,7 @@
 import "./PostList.css"
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
 import { useHistory } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner';
 
 const PostList = (props) => {
 	const history = useHistory();
@@ -32,6 +33,10 @@ const PostList = (props) => {
 				)
 			})
 		}
+		<div className='post-list-spinner'>
+		{ props.isLoading ? (
+				<Spinner className="loading-spinner" animation="border" variant="secondary" />
+			) : '' }</div>
 		</div>
   )
 }

@@ -32,7 +32,7 @@ const CreateBlogPage = (props) => {
 
   return (
     <Page >
-      <div className="blog-page-container">
+      <div className="page-container wide-container">
         <h1 className="createblog-title">Create Blog</h1>
         <div className="search-address-input input-group mb-4">
 					<input 

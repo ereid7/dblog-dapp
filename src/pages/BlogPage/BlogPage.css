@@ -20,3 +20,8 @@
     overflow-wrap: break-word;
 }
 
+.owner-card {
+    position: absolute;
+    left: -100px;
+}
+

@@ -13,14 +13,17 @@ const BlogPage = (props) => {
 		history.push('/read')
 	}
 
-	const [blogData, isLoading] = useBlogData(blogId)
+	const [blogData, isLoading, isPostsLoading] = useBlogData(blogId)
  
 	return (
 		<Page isLoading={isLoading}>
-			<div className="blog-page-container">
+			<div className="page-container">
+				<div className="owner-card">
+						TEST
+				</div>
 				<h1 className="blog-title">{blogData.title}</h1>
 				<hr />
-				<PostList postList={blogData.postList} />	
+				<PostList isLoading={isPostsLoading} postList={blogData.postList} />	
 			</div>
 		</Page>
 	)

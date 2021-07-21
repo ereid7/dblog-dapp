@@ -19,3 +19,16 @@
   font-size: 18px;
   margin: 0 15px 0 15px;
 }
+
+.page-container {
+  position:relative;
+  margin: 0 auto;
+  max-width: 800px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow-wrap: break-word;
+}
+
+.wide-container {
+  max-width: 1200px;
+}

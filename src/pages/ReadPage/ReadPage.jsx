@@ -38,7 +38,7 @@ const ReadPage = (props) => {
   // TODO check query as well on page load
   return (
 		<Page isLoading={false}>
-      <div className="read-page-container">
+      <div className="page-container">
       <form className="mb-3" onSubmit={handleSubmit}>
         <h4 className="read-title">Enter blog address or post address. You may also enter a wallet address to view dblogs created by address</h4>
 				<div className="search-address-input input-group mb-4">

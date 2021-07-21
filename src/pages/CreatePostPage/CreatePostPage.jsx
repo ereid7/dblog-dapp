@@ -62,7 +62,7 @@ const CreatePostPage = (props) => {
 
   return (
     <Page >
-      <div className="createpost-page-container">
+      <div className="page-container wide-container">
         <h1 className="createpost-title">Create Post</h1>
         <div className="subtitle-container">
           <div onClick={onBlogSelected} className="subtitle-item clickable">

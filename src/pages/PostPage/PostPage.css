@@ -3,15 +3,6 @@
     margin-top: 20px;
 }
 
-.post-page-container {
-    position:relative;
-    margin: 0 auto;
-    max-width: 700px;
-    padding-left: 10px;
-    padding-right: 10px;
-    overflow-wrap: break-word;
-}
-
 .post-content {
     text-align: left;
     font-size: 21px;
