@@ -16,7 +16,7 @@ const PostList = (props) => {
 			props.postList.map((value, index) => {
 				return (
 					<div className='post-item' key={`postlistitem_${index}`}>
-						<h3 className="post-name" onClick={() => navigateToPost(value.address)}>{value.title}</h3>
+						<h3 className="post-name clickable" onClick={() => navigateToPost(value.address)}>{value.title}</h3>
 						<div className="post-item-info">
 							<div className="post-label">
 								Jun 27

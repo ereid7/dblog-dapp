@@ -22,6 +22,15 @@
 
 .owner-card {
     position: absolute;
-    left: -100px;
+    left: -260px;
+    background-color: #F8F9FA;
+    width: 230px;
+    margin-top: 100px;
+}
+
+@media only screen and (max-width: 1150px) {
+    .owner-card {
+        position: relative;
+    }
 }
 

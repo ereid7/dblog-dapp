@@ -6,6 +6,7 @@ export const usePostData = postId => {
   const [isLoading, setIsLoading] = useState(true)
   const [postData, setPostData] = useState({
     postId: postId,
+    creationTimestamp: '',
     postNum: 0,
     title: '',
     content: '',

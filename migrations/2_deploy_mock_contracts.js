@@ -10,7 +10,6 @@ module.exports = async function(deployer, network, accounts) {
     // Deploy Mock DBlogContract
     await factory.createBlog("Mock Blog")
     const blog = await DBlogContract.deployed()
-    console.log(blog)
 
     // Deploy Mock DBlogPostContract
     await blog.publishBlogPost("Mock Post", "Mock Post Content", ["mockTag1", "mockTag2"], true)
