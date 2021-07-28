@@ -36,6 +36,7 @@ export const getContract = (abi, address, signer) => {
   return new ethers.Contract(address, abi, signerOrProvider)
 }
 
+// TODO fix this
 export const isAddressInstanceOfContract = async (address, contract) => {
   const code = await simpleRpcProvider.getCode(address)
   return true//contract.deployedBytecode === code

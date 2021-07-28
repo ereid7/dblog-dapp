@@ -5,7 +5,6 @@ import "../contracts/DBlogContract.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract DBlogPostContract is Ownable {
-    // TODO determine whether to store obj or address
     DBlogContract public blog;
     uint public postNum;
     string public title;

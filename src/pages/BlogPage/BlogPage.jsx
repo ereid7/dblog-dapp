@@ -15,7 +15,7 @@ const BlogPage = (props) => {
 		history.push('/read')
 	}
 
-	const [blogData, isLoading, isPostsLoading] = useBlogData(blogId)
+	const [blogData, isLoading, isBlogOwner, isPostsLoading] = useBlogData(blogId)
 
 	const onCreatePost = () => {
 		history.push(`/createpost?blogId=${blogId}`)
@@ -27,17 +27,18 @@ const BlogPage = (props) => {
 				<div className="owner-card">
 						<Card>
 							<Card.Body>
-                    <Card.Title >Owner Panel</Card.Title>
+                <Card.Title >Owner Panel</Card.Title>
 
-										<Button onClick={onCreatePost} variant="outline-secondary">
-											Create Post
-										</Button>
+								<Button onClick={onCreatePost} variant="outline-secondary">
+									Create Post
+								</Button>
               </Card.Body>
 						</Card>
 				</div>
 				<h1 className="blog-title">{blogData.title}</h1>
 				<hr />
-				<PostList isLoading={isPostsLoading} postList={blogData.postList} />	
+				<PostList isLoading={isPostsLoading} postList={blogData.postList} />
+				<Button variant="outline-secondary">Load More Posts</Button>
 			</div>
 		</Page>
 	)

@@ -1,10 +1,9 @@
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header';
 import PostPage from './pages/PostPage/PostPage';
 import BlogPage from './pages/BlogPage/BlogPage';
-import CreateBlogPage from './pages/CreateBlogPage/CreateBlogPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
 import ReadPage from './pages/ReadPage/ReadPage';
 import PublishPage from './pages/PublishPage/PublishPage';
@@ -47,9 +46,8 @@ const App = () => {
           <Route path="/publish" component={PublishPage} />
           <Route path="/post" component={PostPage} />
           <Route path="/blog" component={BlogPage} />
-          <Route path="/createblog" component={CreateBlogPage} />
           <Route path="/createpost" component={CreatePostPage} />
-          <Route path="*" component = {() => "404 NOT FOUND"} />
+          <Redirect path="*" to="/read" />
         </Switch>
       </BrowserRouter>
     </div>

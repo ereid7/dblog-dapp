@@ -20,7 +20,6 @@ const PostPage = (props) => {
   const onBlogSelected = (event) => {
     event.preventDefault()
 
-    // TODO store this in data
     history.push(`/blog?id=${postData.blogAddress}`)
   }
 

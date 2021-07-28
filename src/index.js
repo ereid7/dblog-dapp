@@ -5,6 +5,8 @@ import App from './App';
 //import { getLibrary } from './utils/web3React'
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
+import store from './redux/store'
+import { Provider } from 'react-redux'
 
 export const getLibrary = (provider) => {
   //window.web3 = new ethers.providers.Web3Provider(provider)

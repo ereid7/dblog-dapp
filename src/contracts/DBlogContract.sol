@@ -10,7 +10,6 @@ contract DBlogContract is Ownable {
     uint public postCount;
     uint public tagCount;
     
-    // TODO is this needed or is address fine
     mapping(uint => DBlogPostContract) public postMap;
     mapping(uint => string) public tagNames;
     
