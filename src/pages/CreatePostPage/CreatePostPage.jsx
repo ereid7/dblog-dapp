@@ -25,7 +25,7 @@ const CreatePostPage = (props) => {
   const dBlogContract = useDBlogContract(blogId)
 
   const onContentChanged = (content) => {
-    console.log(content)
+    // TODO save to local storage
     setValue(content)
   }
 

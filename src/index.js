@@ -1,12 +1,14 @@
-import React from 'react';
+import { React, createContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 //import { getLibrary } from './utils/web3React'
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
-import store from './redux/store'
-import { Provider } from 'react-redux'
+
+window.onbeforeunload = () =>{
+  window.sessionStorage.setItem("origin", window.location.href);
+}
 
 export const getLibrary = (provider) => {
   //window.web3 = new ethers.providers.Web3Provider(provider)
@@ -14,6 +16,11 @@ export const getLibrary = (provider) => {
   window.web3.pollingInterval = 500
   return window.web3
 }
+
+// const WalletContext = createContext({
+//   transactionMap: {}
+
+// })
 
 ReactDOM.render(
     <Web3ReactProvider getLibrary={getLibrary}>

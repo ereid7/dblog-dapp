@@ -8,7 +8,7 @@ export const usePublishData = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 	const [blogList, setBlogList] = useState([])
-  const dBlogFactoryContract = useDBlogFactoryContract("0x9De559835fa0981c269C1BC4eb1D268fCe9C5a43")
+  const dBlogFactoryContract = useDBlogFactoryContract("0xb033fA08b485171FDf49987904Da11Eb7CA89A25")
 
   // TODO load separately for l=the list
   useEffect(() => {

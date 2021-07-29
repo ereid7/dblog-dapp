@@ -33,14 +33,20 @@ const App = () => {
   // handle logic to connect in reaction to certain events on the injected ethereum provider, if it exists
   useInactiveListener(!triedEager || !!activatingConnector)
 
-  
+  useEffect(() => {
+    if(window.location.href == window.sessionStorage.getItem("origin")){
+      window.sessionStorage.clear();
+    }
+  }, [])
+
+  console.log("APP")
   return (  
     <div className="App">
-      <Header connectWallet={() => { 
-        setActivatingConnector(injected)
-        activate(injected)
-      }} isConnected={active} account={account} />
       <BrowserRouter>
+        <Header connectWallet={() => { 
+          setActivatingConnector(injected)
+          activate(injected)
+        }} isConnected={active} account={account} />
         <Switch>
           <Route path="/read" component={ReadPage} />
           <Route path="/publish" component={PublishPage} />

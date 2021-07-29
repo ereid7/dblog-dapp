@@ -29,9 +29,9 @@ const BlogPage = (props) => {
 							<Card.Body>
                 <Card.Title >Owner Panel</Card.Title>
 
-								<Button onClick={onCreatePost} variant="outline-secondary">
-									Create Post
-								</Button>
+									<Button onClick={onCreatePost} variant="outline-secondary">
+										Create Post
+									</Button>
               </Card.Body>
 						</Card>
 				</div>

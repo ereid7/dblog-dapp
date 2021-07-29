@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "../contracts/DBlogPostContract.sol";
+import "./DBlogPostContract.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract DBlogContract is Ownable {
@@ -17,6 +17,8 @@ contract DBlogContract is Ownable {
     mapping(string => mapping(uint => address)) public tagPageMap;
     mapping(string => uint) public tagPageCounts;
     mapping(string => bool) public tagExistence;
+
+    event PostCreated(DBlogPostContract indexed _postAddress);
     
     constructor(
         address _blogOwnerAddress,
@@ -52,6 +54,7 @@ contract DBlogContract is Ownable {
             tagPageMap[lowercaseTagName][tagPageCounts[lowercaseTagName] - 1] = address(postMap[postCount]);
         }
         
+        emit PostCreated(postMap[postCount]);
         return postCount;
     }
     
