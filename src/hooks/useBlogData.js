@@ -10,6 +10,8 @@ export const useBlogData = blogId => {
   const { account } = useActiveWeb3React()
   const [isLoading, setIsLoading] = useState(true)
   const [isPostsLoading, setIsPostsLoading] = useState(true)
+  const [postsLoaded, setPostsLoaded] = useState(0);
+  const [isBlogOwner, setIsBlogOwner] = useState(false)  
 	const [blogData, setBlogData] = useState({
 		blogId: blogId,
 		title: '',
@@ -19,8 +21,8 @@ export const useBlogData = blogId => {
 	})
   const setPartBlogData = (partialData) => setBlogData({ ...blogData, ...partialData })
   const dBlogContract = useDBlogContract(blogData.blogId)
-  const [isBlogOwner, setIsBlogOwner] = useState(false)
 
+  // TODO make this into map object rather than returning methods
   var [setBlogMapItem, remove, getBlogMapItem, clearBlogMap] = useSessionStorageMap("dBlogDataMap")
 
   // TODO fix postcreated event subscription
@@ -41,6 +43,58 @@ export const useBlogData = blogId => {
       postList: [postListItem].concat(blogData.postList)
     })
   }, [])
+
+  const fetchBlogData = useCallback(async () => {
+    const title = await dBlogContract.blogName()
+    var postCount = (await dBlogContract.postCount()).toNumber()
+
+    setPartBlogData({
+      title: title,
+      postCount: postCount,
+      tagList: [],
+    })
+
+    setIsLoading(false)
+  })
+
+  // TODO create fetchpost data seperataely
+  const fetchBlogPostData = useCallback(async () => {
+    var postCount = (await dBlogContract.postCount()).toNumber()
+    var postsToLoad = postCount > 10 ? 10 : postCount;
+  
+    // setPartBlogData({
+    //   title: title,
+    //   postCount: postCount,
+    //   tagList: [],
+    // })
+
+    // setIsLoading(false)
+    var postList = blogData.postList
+
+    setIsPostsLoading(true)
+    var startingIndex = postCount - postsLoaded;
+    for (var i = startingIndex; i > startingIndex - postsToLoad; i--) {
+      const postAddress = await dBlogContract.postMap(i)
+      const postContract = getDBlogPostContract(postAddress)
+      const postTitle = await postContract.title() 
+      
+      const postNum = (await postContract.postNum()).toNumber()
+      const postLikes = (await postContract.likeCount()).toNumber()
+      // TODO store creationdate (in contract?)
+      var postListItem = {
+        address: postAddress,
+        title: postTitle,
+        postNum: postNum,
+        likes: postLikes
+      }
+      postList.push(postListItem);
+      setPartBlogData({
+        postList: postList
+      })
+    }
+    setPostsLoaded(postList.length)
+    setIsPostsLoading(false)
+  })
 
   // detect if current account is blog owner
   useEffect(() => {
@@ -72,50 +126,9 @@ export const useBlogData = blogId => {
     }
 
     // TODO check if latest loaded blog address is latest that exists. If not, reload data
-
     const checkUpToDate = async (existingBlogData) => {
       const postCount = (await dBlogContract.postCount()).toNumber()
       return existingBlogData.postList[0].postNum === postCount
-    }
-
-    // TODO separate into post and blog data
-    const fetchBlogData = async () => {
-      const title = await dBlogContract.blogName()
-      var postCount = (await dBlogContract.postCount()).toNumber()
-      var postsToLoad = postCount > 10 ? 10 : postCount;
-    
-      setPartBlogData({
-        title: title,
-        postCount: postCount,
-        tagList: [],
-      })
-  
-      setIsLoading(false)
-      var postList = []
-      for (var i = postCount; i > postCount - postsToLoad; i--) {
-        const postAddress = await dBlogContract.postMap(i)
-        const postContract = getDBlogPostContract(postAddress)
-        const postTitle = await postContract.title() 
-        
-        const postNum = (await postContract.postNum()).toNumber()
-        const postLikes = (await postContract.likeCount()).toNumber()
-        // TODO store creationdate (in contract?)
-        var postListItem = {
-          address: postAddress,
-          title: postTitle,
-          postNum: postNum,
-          likes: postLikes
-        }
-        postList.push(postListItem);
-
-        setPartBlogData({
-          title: title,
-          postCount: postCount,
-          postList: postList
-        })
-      }
-
-      setIsPostsLoading(false)
     }
 
     var existingBlogData = getBlogMapItem(blogData.blogId) 
@@ -131,6 +144,7 @@ export const useBlogData = blogId => {
         }
         else {
           fetchBlogData()
+          fetchBlogPostData()
 
           return
         }
@@ -139,6 +153,7 @@ export const useBlogData = blogId => {
 
     if (blogData.title.length < 1 && !blogDataExists) {
       fetchBlogData()
+      fetchBlogPostData()
     }
   }, [])
 
@@ -146,5 +161,5 @@ export const useBlogData = blogId => {
     setBlogMapItem(blogData.blogId, blogData)
   }, [blogData])
 
-  return [blogData, isLoading, isBlogOwner, isPostsLoading]
+  return [blogData, isLoading, isBlogOwner, isPostsLoading, fetchBlogPostData]
 }

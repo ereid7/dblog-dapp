@@ -8,6 +8,7 @@ import CreateBlogModal from "../../components/CreateBlogModal/CreateBlogModal"
 import BlogList from '../../components/BlogList/BlogList'
 
 // TODO replace all double quotes with single quotes
+// TODO display some text if wallet is not connected on this page
 
 const PublishPage = (props) => {
   const [blogList, isLoading] = usePublishData()
