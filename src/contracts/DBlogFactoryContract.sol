@@ -10,7 +10,6 @@ import '@openzeppelin/contracts/access/Ownable.sol';
 // }
 
 contract DBlogFactoryContract is Ownable {
-
 	uint public blogCount;
 
 	mapping(address => mapping(uint => DBlogContract)) public addressBlogMap;
