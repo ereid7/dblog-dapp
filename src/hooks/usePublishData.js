@@ -7,7 +7,9 @@ export const usePublishData = () => {
   const { account, library } = useActiveWeb3React()
 
   const [isLoading, setIsLoading] = useState(true)
-	const [blogList, setBlogList] = useState([])
+	const [publishData, setPublishData] = useState({
+    blogList: []
+  })
   const dBlogFactoryContract = useDBlogFactoryContract("0xb033fA08b485171FDf49987904Da11Eb7CA89A25")
 
   // TODO load separately for l=the list
@@ -32,7 +34,7 @@ export const usePublishData = () => {
             blogList.push(blogListItem)
             console.log(blogListItem)
 
-            setBlogList(blogList)
+            setPublishData({blogList: blogList})
           }
         }
         setIsLoading(false)
@@ -41,5 +43,5 @@ export const usePublishData = () => {
     }
   }, [account])
 
-  return [blogList, isLoading]
+  return [publishData.blogList, isLoading]
 }

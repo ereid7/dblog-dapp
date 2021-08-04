@@ -5,7 +5,6 @@ import { useDBlogPostContract } from '../hooks/useContract'
 export const usePostData = postId => {
   const [isLoading, setIsLoading] = useState(true)
   const [postData, setPostData] = useState({
-    postId: postId,
     creationTimestamp: '',
     postNum: 0,
     title: '',
@@ -15,7 +14,7 @@ export const usePostData = postId => {
     blogName: '',
     tagList: []
   })
-  const dBlogPostContract = useDBlogPostContract(postData.postId)
+  const dBlogPostContract = useDBlogPostContract(postId)
 
   useEffect(() => {
     const fetchPostData = async () => {

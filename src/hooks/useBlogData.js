@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react"
-import { getDBlogContract, getDBlogPostContract } from "../utils/contractHelpers"
-import { useDBlogContract, useDBlogPostContract } from '../hooks/useContract'
+import { getDBlogPostContract } from "../utils/contractHelpers"
+import { useDBlogContract } from '../hooks/useContract'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import { useSessionStorageMap } from "./useSessionStorageMap"
 
@@ -24,23 +24,24 @@ export const useBlogData = blogId => {
   var [setBlogMapItem, remove, getBlogMapItem, clearBlogMap] = useSessionStorageMap("dBlogDataMap")
 
   // TODO fix postcreated event subscription
-  // const postCreatedHandler = useCallback(async (postAddress) => {
-  //   const postContract = getDBlogPostContract(postAddress)
-  //   const postTitle = await postContract.title() 
-  //   const postNum = (await postContract.postNum()).toNumber()
-  //   const postLikes = (await postContract.likeCount()).toNumber()
-  //   // TODO store creationdate (in contract?)
-  //   var postListItem = {
-  //     address: postAddress,
-  //     title: postTitle,
-  //     postNum: postNum,
-  //     likes: postLikes,
-  //   }
-  //   console.log("postcreatedhandler called")
-  //   setPartBlogData({
-  //     postList: [postListItem].concat(blogData.postList)
-  //   })
-  // }, [])
+  const postCreatedHandler = useCallback(async (postAddress) => {
+    console.log(postAddress)
+    const postContract = getDBlogPostContract(postAddress)
+    const postTitle = await postContract.title() 
+    const postNum = (await postContract.postNum()).toNumber()
+    const postLikes = (await postContract.likeCount()).toNumber()
+    // TODO store creationdate (in contract?)
+    var postListItem = {
+      address: postAddress,
+      title: postTitle,
+      postNum: postNum,
+      likes: postLikes,
+    }
+    console.log("postcreatedhandler called")
+    setBlogPostData({
+      postList: [postListItem].concat(blogPostData.postList)
+    })
+  }, [])
 
   const fetchBlogData = useCallback(async () => {
     const title = await dBlogContract.blogName()
@@ -59,7 +60,6 @@ export const useBlogData = blogId => {
     setIsPostsLoading(true)
     //var postCount = (await dBlogContract.postCount()).toNumber()
     var postsToLoad = postCount > 10 ? 10 : postCount;
-
     var postList = blogPostData.postList
     var startingIndex = postCount - postsLoaded;
 
@@ -84,7 +84,7 @@ export const useBlogData = blogId => {
     }
     setPostsLoaded(postList.length)
     setIsPostsLoading(false)
-  }, [postCount])
+  }, [postCount, postsLoaded])
 
   // detect if current account is blog owner
   useEffect(() => {
@@ -99,15 +99,15 @@ export const useBlogData = blogId => {
   }, [account])
 
   // TODO setup contract event listeners
-  // useEffect(() => {
-  //   if (!isPostsLoading) {
-  //     dBlogContract.on('PostCreated', postCreatedHandler)
-  //   }
-
-  //   return () => {
-  //     dBlogContract.removeAllListeners('PostCreated')
-  //   }
-  // }, [blogDataExists])
+  // TODO why is postCreatedHandler called on page refresh
+  useEffect(() => {
+    if (!isPostsLoading) {
+      dBlogContract.on('PostCreated', postCreatedHandler)
+    }
+    return () => {
+      dBlogContract.removeAllListeners('PostCreated')
+    }
+  }, [dBlogContract])
 
   useEffect(() => {
     // TODO store this in method or hook. Clears data if browser refresh, but not navigate with back/forward buttons
@@ -116,7 +116,8 @@ export const useBlogData = blogId => {
     }
     const checkUpToDate = async (existingBlogData) => {
       const postCount = (await dBlogContract.postCount()).toNumber()
-      return existingBlogData.postList[0].postNum === postCount
+      setPostCount(postCount)
+      return existingBlogData.blogPostData.postList[0]?.postNum === postCount
     }
 
     var existingBlogData = getBlogMapItem(blogId) 
@@ -125,7 +126,9 @@ export const useBlogData = blogId => {
       // fetch post data if not up to date
       checkUpToDate(existingBlogData).then((upToDate) => {
         if (upToDate) {
-          setBlogData(existingBlogData)
+          setBlogData(existingBlogData.blogData)
+          setBlogPostData(existingBlogData.blogPostData)
+          setPostsLoaded(existingBlogData.blogPostData.postList.length)
 
           setIsLoading(false)
           setIsPostsLoading(false)
@@ -143,11 +146,12 @@ export const useBlogData = blogId => {
       fetchBlogData()
       fetchPostList()
     }
-  }, [postCount])
+  }, [isLoading])
 
   useEffect(() => {
-    setBlogMapItem(blogData.blogId, blogData)
-  }, [blogData])
+    var mapItem = {blogData, blogPostData}
+    setBlogMapItem(blogId, mapItem)
+  }, [blogData, blogPostData])
 
   return [blogData, blogPostData.postList, isLoading, isBlogOwner, isPostsLoading, fetchPostList]
 }

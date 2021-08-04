@@ -1,4 +1,5 @@
 import BlogListItem from './BlogListItem'
+import Spinner from 'react-bootstrap/Spinner';
 
 const BlogList = (props) => {
   return (
@@ -10,6 +11,10 @@ const BlogList = (props) => {
         )
       })
     }
+    <div className='post-list-spinner'>
+		{ props.isLoading ? (
+				<Spinner className="loading-spinner" animation="border" variant="secondary" />
+			) : '' }</div>
     </div>
   )
 }

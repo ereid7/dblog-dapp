@@ -22,18 +22,18 @@ const PublishPage = (props) => {
   const handleShow = () => setShow(true);
 
   return (
-		<Page isLoading={isLoading}>
+		<Page>
       <div className="page-container">
         <h1 className="publish-title">Publish</h1>
         <div className="bloglist-container">
         {
-          (blogList === undefined || blogList.length === 0) ?
+          (!isLoading && (blogList === undefined || blogList.length === 0)) ?
             (
               <div className="no-blogs-container">
                 <h4> No blogs have been created with the connected address</h4>
               </div>
             ) :
-          <BlogList blogList={blogList}></BlogList>
+          <BlogList isLoading={isLoading} blogList={blogList}></BlogList>
         }
         <button onClick={handleShow} className="newblog-btn btn btn-secondary btn-block btn-lg">New Blog</button>
         </div>
