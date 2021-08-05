@@ -8,8 +8,6 @@ import { copyToClipboard } from '../../utils/clipboardHelpers';
 const BlogListItem = (props) => {
   const history = useHistory();
 
-  console.log(props)
-
   const navigateToBlog = (address) => {
     history.push(`/blog?id=${address}`);
   }

@@ -7,6 +7,7 @@ import BlogPage from './pages/BlogPage/BlogPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
 import ReadPage from './pages/ReadPage/ReadPage';
 import PublishPage from './pages/PublishPage/PublishPage';
+import { ToastListener } from './contexts/ToastContext';
 import { useState, useEffect } from "react";
 import {
   useWeb3React, 
@@ -34,11 +35,12 @@ const App = () => {
   useInactiveListener(!triedEager || !!activatingConnector)
 
   useEffect(() => {
-    if(window.location.href == window.sessionStorage.getItem("origin")){
+    if(window.location.href === window.sessionStorage.getItem("origin")){
       window.sessionStorage.clear();
     }
   }, [])
 
+  // TODO lazy load components (see pancake-frontend app.tsx)
   console.log("APP")
   return (  
     <div className="App">
@@ -55,9 +57,11 @@ const App = () => {
           <Route path="/createpost" component={CreatePostPage} />
           <Redirect path="*" to="/read" />
         </Switch>
+        <ToastListener />
       </BrowserRouter>
     </div>
   )
 }
 
+// TODO use memo here?
 export default App

@@ -32,7 +32,6 @@ export const usePublishData = () => {
               postCount: postCount
             }
             blogList.push(blogListItem)
-            console.log(blogListItem)
 
             setPublishData({blogList: blogList})
           }

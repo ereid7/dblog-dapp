@@ -8,7 +8,6 @@ export const useCreatePostData = () => {
   const onRequestPublish = async () => {
     setIsLoading(true)
     try {
-      console.log(await dBlogContract.owner())
       await dBlogContract.publishBlogPost(postTitle, value, ["mockTag1", "mockTag2", "mockTag3"], true)
       // TODO wait for event. Need to update smart contract
     }
@@ -27,4 +26,7 @@ export const useCreatePostData = () => {
     }
     fetchData();
   }, [])
+
+
+  return [isLoading, onRequestPublish]
 }

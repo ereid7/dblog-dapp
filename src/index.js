@@ -2,8 +2,9 @@ import { React, createContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-//import { getLibrary } from './utils/web3React'
 import { Web3ReactProvider } from '@web3-react/core';
+import { UserTransactionProvider } from './providers/UserTransactionProvider';
+import { ToastsProvider } from './contexts/ToastContext/Provider';
 import { ethers } from 'ethers';
 
 window.onbeforeunload = () =>{
@@ -11,21 +12,19 @@ window.onbeforeunload = () =>{
 }
 
 export const getLibrary = (provider) => {
-  //window.web3 = new ethers.providers.Web3Provider(provider)
   window.web3 = new ethers.providers.Web3Provider(provider)
   window.web3.pollingInterval = 500
   return window.web3
 }
 
-// const WalletContext = createContext({
-//   transactionMap: {}
-
-// })
-
 ReactDOM.render(
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <App />
-    </Web3ReactProvider>,
+    <ToastsProvider>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <UserTransactionProvider>
+          <App />
+        </UserTransactionProvider>
+      </Web3ReactProvider>
+    </ToastsProvider>,
   document.getElementById('root')
 );
 
