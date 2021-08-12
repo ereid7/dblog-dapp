@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Web3ReactProvider } from '@web3-react/core';
-import { UserTransactionProvider } from './providers/UserTransactionProvider';
+import { UserTransactionProvider } from './contexts/UserTransactionContext';
 import { ToastsProvider } from './contexts/ToastContext/Provider';
 import { ethers } from 'ethers';
 

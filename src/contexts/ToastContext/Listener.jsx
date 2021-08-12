@@ -1,13 +1,11 @@
 import React from 'react'
 import useToast from '../../hooks/useToast'
+import ToastNotificationContainer from '../../components/ToastNotificationContainer/ToastNotificationContainer'
 
 const ToastListener = () => {
   const { toasts, remove } = useToast()
 
-  const handleRemove = (id) => remove(id)
-
-  return <div></div>
-  //return <ToastContainer toasts={toasts} onRemove={handleRemove} />
+  return <ToastNotificationContainer toasts={toasts} onRemove={() => console.log("onRemove")} />
 }
 
 export default ToastListener

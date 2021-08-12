@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { ToastsContext } from '../contexts/ToastContext'
 
-const useToast = () => {
+export const useToast = () => {
   const toastContext = useContext(ToastsContext)
 
   if (toastContext === undefined) {

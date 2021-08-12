@@ -1,6 +1,6 @@
 import { useDBlogFactoryContract } from '../hooks/useContract'
 import { useState, useContext, useCallback } from 'react'
-import { UserTransactionContext } from '../providers/UserTransactionProvider'
+import useUserTransactionContext from '../hooks/useUserTransactionContext'
 
 // https://levelup.gitconnected.com/using-react-hooks-for-global-state-management-951834054971
 // TODO figure out write transaction sequence w/o needing to store transaction info
@@ -12,9 +12,7 @@ export const transactionStates = {
 }
 
 export const useCreateBlogData = () => {
-
-  const transactionContext = useContext(UserTransactionContext)
-  const { addTransaction, blogTransaction } = transactionContext
+  const { addTransaction, blogTransaction } = useUserTransactionContext()
 
   const dBlogFactoryContract = useDBlogFactoryContract("0xb033fA08b485171FDf49987904Da11Eb7CA89A25")
   const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)

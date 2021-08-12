@@ -1,10 +1,11 @@
 import React, { useState, useEffect, createContext } from 'react'
-import { useDBlogFactoryContract } from '../hooks/useContract'
+import { useDBlogFactoryContract } from '../../hooks/useContract'
 import {
   useWeb3React, 
 } from '@web3-react/core'
+import useToast from '../../hooks/useToast'
 
-const UserTransactionContext = createContext()
+export const UserTransactionContext = createContext()
 
 export const transactionStates = {
   NO_REQUEST: "no-request",
@@ -38,7 +39,7 @@ export const transactionState = {
 //   }, [dispatch, chainId, account]);
 // }
 
-const UserTransactionProvider = (props) => {
+export const UserTransactionProvider = (props) => {
   const dBlogFactoryContract = useDBlogFactoryContract("0xb033fA08b485171FDf49987904Da11Eb7CA89A25")
 
   const [blogTransactions, setBlogTransactions] = useState({})
@@ -47,6 +48,7 @@ const UserTransactionProvider = (props) => {
   const context = useWeb3React()
   // { connector, library, chainId, account, activate, deactivate, active, error }
   const { connector, chainId, account, activate, active } = context
+  const { toastSuccess, toastError } = useToast()
 
   // TODO store list of pending transactions and their states
   const addTransaction = (txResponse) => {
@@ -68,21 +70,20 @@ const UserTransactionProvider = (props) => {
     txResponse.wait()
       .then(response => {
         //blogTransactions[chainId][hash].transactionState = 'success';
-        console.log('success')
+        console.log(response)
+        toastSuccess('Transaction Successful', 'test')
       })
       .catch(error => {
         //blogTransactions[chainId][hash].transactionState = 'failed';
-        console.log('err')
+        console.log('Transaction Success')
+        toastError('Transaction Failed', 'test')
       })
       .finally(() => {
         delete blogTransactions[chainId][hash]
       })
 
     setBlogTransactions(blogTransactions);
-
-
     // TODO store transactions in local storage?
-    // TODO notification once complete
   }
 
 
@@ -96,4 +97,3 @@ const UserTransactionProvider = (props) => {
   )
 }
 
-export { UserTransactionProvider, UserTransactionContext }

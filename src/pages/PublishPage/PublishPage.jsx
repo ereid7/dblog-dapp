@@ -7,11 +7,17 @@ import { usePublishData } from "../../hooks/usePublishData";
 import CreateBlogModal from "../../components/CreateBlogModal/CreateBlogModal"
 import BlogList from '../../components/BlogList/BlogList'
 
+// TODO test
+import useToast from '../../hooks/useToast'
+
 // TODO replace all double quotes with single quotes
 // TODO display some text if wallet is not connected on this page
 
 const PublishPage = (props) => {
   const [blogList, isLoading] = usePublishData()
+
+  // TODO TEST
+  const { toastInfo } = useToast()
 
   // TODO check query as well on page load\
   // TODO add blog description variable
@@ -19,7 +25,7 @@ const PublishPage = (props) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = ()  => setShow(true);
 
   return (
 		<Page>
