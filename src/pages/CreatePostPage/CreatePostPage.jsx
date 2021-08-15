@@ -6,44 +6,20 @@ import { useQuery } from '../../utils/routeUtils'
 import { useDBlogContract } from '../../hooks/useContract'
 import './CreatePostPage.css'
 import { useEffect } from 'react'
+import { useCreatePostData } from '../../hooks/useCreatePostData'
 
 
 // todo verify wallet is connected
 const CreatePostPage = (props) => {
 
+  const blogId = useQuery().get("blogId")
   const history = useHistory();
-  const [blogId, setBlogId] = useState(useQuery().get("blogId"))
 
   if (blogId == null) {
     history.push('/publish')
   }
-  
-  const [blogName, setBlogName] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [postTitle, setPostTitle] = useState('')
-  const [value, setValue] = useState('');
-  const dBlogContract = useDBlogContract(blogId)
 
-  const onContentChanged = (content) => {
-    // TODO save to local storage
-    setValue(content)
-  }
-
-  // TODO make into hook
-  const onRequestPublish = async () => {
-    setIsLoading(true)
-    try {
-      console.log(await dBlogContract.owner())
-      await dBlogContract.publishBlogPost(postTitle, value, ["mockTag1", "mockTag2", "mockTag3"], true)
-      // TODO wait for event. Need to update smart contract
-    }
-    catch(e) {
-
-    }
-    finally {
-      setIsLoading(false)
-    }
-  }
+  const [isLoading, blogName, value, setPostTitle, onContentChanged, onRequestPublish] = useCreatePostData(blogId)
 
   const onBlogSelected = (event) => {
     event.preventDefault()
@@ -51,15 +27,6 @@ const CreatePostPage = (props) => {
 
     history.push(`/blog?id=${blogId}`)
   }
-
-  // todo in hook
-  useEffect(() => {
-    const fetchData = async () => {
-      const blogName = await dBlogContract.blogName()
-      setBlogName(blogName);
-    }
-    fetchData();
-  }, [])
 
   return (
     <Page >

@@ -60,7 +60,6 @@ export const UserTransactionProvider = (props) => {
       [`${hash}`]: { hash: hash, transactionState: 'pending' }
     }
 
-    console.log(blogTransactions)
     // blogTransactions = {
     //   ...blogTransactions,
     //   chainId: 
@@ -70,12 +69,11 @@ export const UserTransactionProvider = (props) => {
     txResponse.wait()
       .then(response => {
         //blogTransactions[chainId][hash].transactionState = 'success';
-        console.log(response)
+        console.log('Transaction Success')
         toastSuccess('Transaction Successful', 'test')
       })
       .catch(error => {
         //blogTransactions[chainId][hash].transactionState = 'failed';
-        console.log('Transaction Success')
         toastError('Transaction Failed', 'test')
       })
       .finally(() => {

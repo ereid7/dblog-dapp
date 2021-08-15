@@ -2,7 +2,12 @@
 .connect-button {
     position: fixed;
     right: 20px;
-    width: 100px;
+    width: 125px;
+}
+
+.transaction-button {
+    position: fixed;
+    right: 150px;
 }
 
 .header-title {

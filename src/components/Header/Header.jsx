@@ -2,6 +2,7 @@ import "./Header.css";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import { formatAccountAddress } from "../../utils/stringHelpers";
 import { useHistory } from "react-router-dom"
 
@@ -19,14 +20,20 @@ const Header = (props) => {
           <Nav.Link>Publish</Nav.Link>
         </Nav.Item>
       </Nav>
-      <Navbar.Text className="account-address-label">
-        {formatAccountAddress(props.account)}
-      </Navbar.Text>
+      <Button className="transaction-button" variant="primary" disabled>
+        <Spinner
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+      </Button>{' '}
       <Button className="connect-button" disabled={props.isConnected} variant={props.isConnected ? "outline-secondary" : "outline-primary"} onClick={async () => {
         if (!props.isConnected) {
           await props.connectWallet()
         }
-      }}>{props.isConnected ? "Connected" : "Connect"}</Button>
+      }}>{props.isConnected ? formatAccountAddress(props.account) : "Connect"}</Button>
     </Navbar>
   );
 }

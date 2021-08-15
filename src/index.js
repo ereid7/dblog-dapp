@@ -7,6 +7,8 @@ import { UserTransactionProvider } from './contexts/UserTransactionContext';
 import { ToastsProvider } from './contexts/ToastContext/Provider';
 import { ethers } from 'ethers';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 window.onbeforeunload = () =>{
   window.sessionStorage.setItem("origin", window.location.href);
 }
