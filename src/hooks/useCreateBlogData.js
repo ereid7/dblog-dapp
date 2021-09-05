@@ -1,38 +1,35 @@
 import { useDBlogFactoryContract } from '../hooks/useContract'
-import { useState, useContext, useCallback } from 'react'
+import { useState, useContext, useCallback, useEffect } from 'react'
+import { useHistory } from "react-router-dom"
 import useUserTransactionContext from '../hooks/useUserTransactionContext'
+import { transactionStates } from '../utils/enums'
 
 // https://levelup.gitconnected.com/using-react-hooks-for-global-state-management-951834054971
 // TODO figure out write transaction sequence w/o needing to store transaction info
-export const transactionStates = {
-  NO_REQUEST: "no-request",
-  REQUESTING: "requesting",
-  SUBMIT: "submit",
-  ERROR: "error",
-}
+// export const transactionStates = {
+//   NO_REQUEST: "no-request",
+//   REQUESTING: "requesting",
+//   SUBMIT: "submit",
+//   ERROR: "error",
+// }
 
 export const useCreateBlogData = () => {
-  const { addTransaction, blogTransaction } = useUserTransactionContext()
+  const { addTransaction, blogTransactions } = useUserTransactionContext()
+  const history = useHistory()
 
-  const dBlogFactoryContract = useDBlogFactoryContract("0xb033fA08b485171FDf49987904Da11Eb7CA89A25")
+  const dBlogFactoryContract = useDBlogFactoryContract("0x9070b836f7C40525b81D1EC90a92fBE28cE40938")
   const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)
 
   const onCreate = useCallback(async (blogName) => {
     try {
       setTransactionState(transactionStates.REQUESTING)
 
-      var transaction = await dBlogFactoryContract.createBlog(blogName)
-      //console.log(test.hash)
-      console.log(transaction.hash)
+      var createBlog = () => dBlogFactoryContract.createBlog(blogName)
 
-      addTransaction(transaction)
+      // TODO on success, load new post
+      var test = await addTransaction(createBlog)
 
       setTransactionState(transactionStates.SUBMIT)
-
-      // TODO create file responsible for waiting for all transactions associated with the wallet
-      await transaction.wait()
-
-      console.log("Transaction confirmed")
     }
     catch(e) {
       setTransactionState(transactionStates.ERROR)
@@ -41,6 +38,10 @@ export const useCreateBlogData = () => {
       //  TODO
     }
   }, [addTransaction])
+
+  useEffect(() => {
+    console.log(blogTransactions)
+  }, [blogTransactions])
 
   return [transactionState, setTransactionState, onCreate]
 }

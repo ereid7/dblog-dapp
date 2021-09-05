@@ -18,7 +18,7 @@ export const ToastsProvider = ({ children }) => {
     if (toasts.length > 0) {
       const timer = setTimeout(
         () => setToasts(toasts => toasts.slice(1)),
-        5200
+        8200
       );
       return () => clearTimeout(timer)
     }

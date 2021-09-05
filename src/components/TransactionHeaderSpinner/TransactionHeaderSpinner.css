@@ -1,0 +1,12 @@
+.transaction-item-container {
+  position: fixed;
+  right: 150px;
+}
+
+.transaction-spinner-label {
+  margin-right: 0px;
+}
+
+.transactionSpinner {
+  margin-left: 10px;
+}

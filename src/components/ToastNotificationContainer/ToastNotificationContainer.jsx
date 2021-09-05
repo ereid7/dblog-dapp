@@ -22,15 +22,12 @@ const ToastNotificationContainer = (props) => {
     
   }, [activeToastData])
 
-
-  // props.onRemove(toast.id)
-  console.log(props.toasts)
   return (
     <ToastContainer className="toast-notification-container">
       {
         props.toasts.map((toast, index) => {
           return(
-          <ToastNotification onClose={() => console.log(toast.id)} title={toast.title} description={toast.description} />
+          <ToastNotification onClose={() => console.log(toast.id)} title={toast.title} description={toast.description} type={toast.type}  />
           )}
         )
       }

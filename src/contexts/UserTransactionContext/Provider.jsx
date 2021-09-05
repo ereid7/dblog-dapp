@@ -1,5 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react'
-import { useDBlogFactoryContract } from '../../hooks/useContract'
+import React, { useState, useEffect, createContext, useCallback } from 'react'
 import {
   useWeb3React, 
 } from '@web3-react/core'
@@ -40,54 +39,106 @@ export const transactionState = {
 // }
 
 export const UserTransactionProvider = (props) => {
-  const dBlogFactoryContract = useDBlogFactoryContract("0xb033fA08b485171FDf49987904Da11Eb7CA89A25")
-
-  const [blogTransactions, setBlogTransactions] = useState({})
-  const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)
+  const [blogTransactions, setBlogTransactions] = useState(Object.create({}))
+  const [transactionsPending, setTransactionsPending] = useState(false)
+  const [requesting, setRequesting] = useState(false)
 
   const context = useWeb3React()
   // { connector, library, chainId, account, activate, deactivate, active, error }
   const { connector, chainId, account, activate, active } = context
   const { toastSuccess, toastError } = useToast()
 
+
   // TODO store list of pending transactions and their states
-  const addTransaction = (txResponse) => {
-    console.log("TEST!")
-    //var txResponse = await dBlogFactoryContract.createBlog(blogName)
-    const { hash } = txResponse
-    blogTransactions[chainId] = {
-      ...blogTransactions[chainId],
-      [`${hash}`]: { hash: hash, transactionState: 'pending' }
-    }
+  const addTransaction = async (
+    transaction, 
+    onSuccess = undefined, 
+    onFailure = undefined,
+    onRejected = undefined,
+  ) => {
+    setTransactionsPending(true)
+    setRequesting(true)
+    try {
+      var txResponse = await transaction();
+      setRequesting(false)
 
-    // blogTransactions = {
-    //   ...blogTransactions,
-    //   chainId: 
-    // }
-    //setBlogTransactions(blogTransactions)
+      const { hash } = txResponse
+      blogTransactions[`${chainId}`] = {
+        ...blogTransactions[chainId],
+        [`${hash}`]: { hash: hash, transactionState: 'pending' }
+      }
+      setBlogTransactions({
+        ...blogTransactions
+      });
 
-    txResponse.wait()
-      .then(response => {
-        //blogTransactions[chainId][hash].transactionState = 'success';
-        console.log('Transaction Success')
-        toastSuccess('Transaction Successful', 'test')
+      // after transaction is created, rest is synchronous so callers know the transaction is pending
+      txResponse.wait().then(response => {
+        blogTransactions[`${chainId}`][`${hash}`].transactionState = 'success';
+        toastSuccess('Transaction Successful', response.transactionHash)
+
+        console.log(response)
+
+        if (onSuccess !== undefined) {
+          onSuccess()
+        }
       })
       .catch(error => {
-        //blogTransactions[chainId][hash].transactionState = 'failed';
-        toastError('Transaction Failed', 'test')
+        blogTransactions[`${chainId}`][`${hash}`].transactionState = 'failed';
+        toastError('Transaction Failed', error.message)
+
+        if (onFailure !== undefined) {
+          onFailure()
+        }
       })
       .finally(() => {
-        delete blogTransactions[chainId][hash]
-      })
+        setTransactionsPending(false)
+        // TODO do not delete. TO determine pending count, check transaction state
+        //delete blogTransactions[chainId][hash]
+        console.log(blogTransactions)
 
-    setBlogTransactions(blogTransactions);
+        setBlogTransactions({
+          ...blogTransactions
+        });
+      })
+      return hash
+    }
+    catch (error) {
+      setTransactionsPending(false)
+      if (error.code === 4001) {
+        toastError('Transaction Failed', 'Transaction Rejected')
+
+        if (onRejected !== undefined) {
+          onRejected()
+        }
+      }
+      else {
+        toastError('Transaction Failed', error.message)
+      }
+ 
+      throw error
+    }
+    // return hash;
+    // setBlogTransactions(blogTransactions);
     // TODO store transactions in local storage?
   }
 
+  const pendingCount = () => {
+    return (blogTransactions === undefined || blogTransactions[`${chainId}`] === undefined) ? 
+      0 : Object.keys(blogTransactions[`${chainId}`]).filter(x => x.transactionState === 'pending')?.length
+  }
+
+  useEffect(() => {
+    //if (blogTransactions[chainId] === undefined) return
+    console.log(Object.keys(blogTransactions))
+    //setPendingCount(Object.keys(blogTransactions[chainId]).length)
+  }, [blogTransactions])
 
   return (
     <UserTransactionContext.Provider value={{
       addTransaction,
+      transactionsPending,
+      pendingCount,
+      requesting,
       blogTransactions
     }}>
       {props.children}

@@ -28,9 +28,12 @@
     margin-top: 100px;
 }
 
-@media only screen and (max-width: 1150px) {
+@media only screen and (max-width: 1400px) {
     .owner-card {
         position: relative;
+        width: auto;
+        margin-top: 10px;
+        left: auto;
     }
 }
 

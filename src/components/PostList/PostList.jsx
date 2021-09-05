@@ -1,35 +1,25 @@
 import "./PostList.css"
-import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
-import { useHistory } from "react-router-dom";
-import Spinner from 'react-bootstrap/Spinner';
+import { useHistory } from "react-router-dom"
+import Spinner from 'react-bootstrap/Spinner'
+import PostListItem from './PostListItem'
+import { useLikePost } from "../../hooks/useLikePost"
+import { hexValue } from "ethers/lib/utils"
 
 const PostList = (props) => {
-	const history = useHistory();
+	// const history = useHistory()
+	// const [onRequestLikePost] = useLikePost()
 
-	const navigateToPost = (address) => {
-		history.push(`/post?id=${address}`);
-	}
-	
+	// const navigateToPost = (address) => {
+	// 	history.push(`/post?id=${address}`)
+	// }
+
+	// TODO create likepostbutton component
   return (
 		<div className="blog-post-list">
 		{
 			props.postList?.map((value, index) => {
 				return (
-					<div className='post-item' key={`postlistitem_${index}`}>
-						<h3 className="post-name clickable" onClick={() => navigateToPost(value.address)}>{value?.title}</h3>
-						<div className="post-item-info">
-							<div className="post-label">
-								Jun 27
-							</div>
-							<div className="post-label">
-								Post {value?.postNum}
-							</div>
-							<div className="likes-display">
-           			<LikeIcon className="likes-icon" />
-           			<p className="likes-value">{value?.likes}</p>
-         			</div>
-						</div>
-					</div>
+					<PostListItem id={`post_list_item_${index}`} {...value}></PostListItem>
 				)
 			})
 		}

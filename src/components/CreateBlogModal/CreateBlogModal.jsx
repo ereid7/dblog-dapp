@@ -1,7 +1,8 @@
 
 import Modal from 'react-bootstrap/Modal'
-import { useCreateBlogData, transactionStates } from '../../hooks/useCreateBlogData'
+import { useCreateBlogData } from '../../hooks/useCreateBlogData'
 import { useState, useEffect } from 'react'
+import { transactionStates } from '../../utils/enums'
 
 // TODO create hook responsible for checking recent wallet transactions, determining if any pending related to the dapp
 

@@ -8,26 +8,26 @@ import { copyToClipboard } from '../../utils/clipboardHelpers';
 const BlogListItem = (props) => {
   const history = useHistory();
 
-  const navigateToBlog = (address) => {
-    history.push(`/blog?id=${address}`);
+  const navigateToBlog = () => {
+    history.push(`/blog?id=${props.blogAddress}`);
   }
 
-  const copyAddressToClipboard = (address) => {
-    copyToClipboard(address)
+  const copyAddressToClipboard = () => {
+    copyToClipboard(props.blogAddress)
   }
 
   return (
     <div className="bloglist-item">
       <Card>
         <Card.Body>
-          <Card.Title onClick={() => navigateToBlog(props.blogAddress)}><a className="clickable">{props.blogName}</a></Card.Title>
+          <Card.Title onClick={() => navigateToBlog()}><a className="clickable">{props.blogName}</a></Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{props.postCount} Posts</Card.Subtitle>
           <OverlayTrigger placement='right' overlay={
             <Tooltip>
               Copy Address to Clipboard
             </Tooltip>
           }>
-            <Card.Link onClick={() => copyAddressToClipboard(props.blogAddress)} href="#">{formatAccountAddress(props.blogAddress)}</Card.Link>
+            <Card.Link onClick={() => copyAddressToClipboard()} href="#">{formatAccountAddress(props.blogAddress)}</Card.Link>
           </OverlayTrigger>
         </Card.Body>
       </Card>

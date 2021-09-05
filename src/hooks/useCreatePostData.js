@@ -3,23 +3,18 @@ import { useEffect, useCallback, useState } from 'react'
 import { useQuery } from '../utils/routeUtils'
 import { useHistory } from "react-router-dom"
 import useUserTransactionContext from '../hooks/useUserTransactionContext'
-
-// TODO create shared const
-export const transactionStates = {
-  NO_REQUEST: "no-request",
-  REQUESTING: "requesting",
-  SUBMIT: "submit",
-  ERROR: "error",
-}
+import { transactionStates } from '../utils/enums'
 
 export const useCreatePostData = blogId => {
   const [isLoading, setIsLoading] = useState(false)
   const [value, setValue] = useState('')
   const [blogName, setBlogName] = useState('')
   const [postTitle, setPostTitle] = useState('')
+  const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)
 
   const history = useHistory();
   const dBlogContract = useDBlogContract(blogId)
+  const sessionStorage = window.localStorage;
 
   const { addTransaction } = useUserTransactionContext()
   //const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)
@@ -27,19 +22,26 @@ export const useCreatePostData = blogId => {
   const onRequestPublish = useCallback(async () => {
     setIsLoading(true)
     try {
-      var transaction = await dBlogContract.publishBlogPost(postTitle, value, ["mockTag1", "mockTag2", "mockTag3"], true)
-      addTransaction(transaction)
-      // TODO wait for event. Need to update smart contract
+      setTransactionState(transactionStates.REQUESTING)
+      console.log(postTitle)
+      var publishTransaction = () => dBlogContract.publishBlogPost(postTitle, value, ["mockTag1", "mockTag2", "mockTag3"], true)
 
-      await transaction.wait()
+      var onSuccess = () => {
+        history.push(`/blog?id=${blogId}`);
+      }
+
+      var publishTx = await addTransaction(publishTransaction, onSuccess)
+      // TODO wait for event. Need to update smart contract
+      
+      setTransactionState(transactionStates.SUBMIT)
     }
     catch(e) {
-
+      setTransactionState(transactionStates.ERROR)
     }
     finally {
       setIsLoading(false)
     }
-  }, [addTransaction])
+  }, [addTransaction, postTitle, value])
 
   const onContentChanged = (content) => {
     // TODO save to local storage
