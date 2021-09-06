@@ -14,7 +14,6 @@ const BlogPage = (props) => {
 	const blogId = useQuery().get("id")
 	const [searchQuery, setSearchQuery] = useState('')
 
-
 	if (blogId == null) {
 		history.push('/read')
 	}
@@ -37,17 +36,20 @@ const BlogPage = (props) => {
 	return (
 		<Page isLoading={isLoading}>
 			<div className="page-container">
-				<div className="owner-card">
-						<Card>
+				{
+					isBlogOwner ? (
+						<div className="owner-card">
+							<Card>
 							<Card.Body>
-                <Card.Title >Owner Panel</Card.Title>
-
-									<Button onClick={onCreatePost} variant="outline-secondary">
-										Create Post
-									</Button>
-              </Card.Body>
-						</Card>
-				</div>
+            	    <Card.Title >Owner Panel</Card.Title>
+										<Button onClick={onCreatePost} variant="outline-secondary">
+											Create Post
+										</Button>
+            	  </Card.Body>
+							</Card>
+						</div>
+					) : '' 
+				}
 				<h1 className="blog-title">{blogData.title}</h1>
 				<div className="subtitle-container">
           {/* <div onClick={onBlogSelected} className="subtitle-item clickable">
@@ -73,7 +75,11 @@ const BlogPage = (props) => {
 				</div>
 				<hr />
 				<PostList isLoading={isPostsLoading} postList={postList} />
-				<Button onClick={fetchPostList} variant="outline-secondary">Load More Posts</Button>
+				{
+					(!isPostsLoading && postCount > postList.length) ? (
+						<Button onClick={fetchPostList} variant="outline-secondary">Load More Posts</Button>
+					) : ''
+				}
 			</div>
 		</Page>
 	)

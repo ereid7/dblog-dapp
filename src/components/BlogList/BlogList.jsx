@@ -7,7 +7,7 @@ const BlogList = (props) => {
     {
       props?.blogList?.map((value, index) => {
         return (
-          <BlogListItem id={`blog_list_item_${index}`} {...value}></BlogListItem>
+          <BlogListItem key={`post_list_item_${index}`} id={`blog_list_item_${index}`} {...value}></BlogListItem>
         )
       })
     }

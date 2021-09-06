@@ -7,6 +7,8 @@ import { usePublishData } from "../../hooks/usePublishData";
 import CreateBlogModal from "../../components/CreateBlogModal/CreateBlogModal"
 import BlogList from '../../components/BlogList/BlogList'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 // TODO test
 import useToast from '../../hooks/useToast'
@@ -31,9 +33,21 @@ const PublishPage = (props) => {
   return (
 		<Page>
       <div className="page-container">
-        <h1 className="publish-title">Publish</h1>
-        <div className="bloglist-container">
         {
+					<div className="owner-card">
+            <Card>
+              <Card.Body>
+                {/* <Card.Title >Owner Panel</Card.Title> */}
+                  <Button onClick={handleShow} variant="outline-secondary">
+                    Create Blog
+                  </Button>
+              </Card.Body>
+            </Card>
+          </div>
+				}
+        {/* <h1 className="publish-title">Publish</h1> */}
+        <div className="bloglist-container">
+        { 
           !active ? (
             <div className="no-blogs-container">
               <h4>Connect wallet to view your blogs</h4>
@@ -47,7 +61,7 @@ const PublishPage = (props) => {
           ) : (
             <div>
               <BlogList isLoading={isLoading} blogList={blogList}></BlogList>
-              <button onClick={handleShow} className="newblog-btn btn btn-secondary btn-block btn-lg">New Blog</button>
+              {/* <button onClick={handleShow} className="newblog-btn btn btn-secondary btn-block btn-lg">New Blog</button> */}
             </div>
           )
         }

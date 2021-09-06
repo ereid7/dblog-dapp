@@ -3,6 +3,7 @@ import {
   useWeb3React, 
 } from '@web3-react/core'
 import useToast from '../../hooks/useToast'
+import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 
 export const UserTransactionContext = createContext()
 
@@ -41,9 +42,10 @@ export const transactionState = {
 export const UserTransactionProvider = (props) => {
   const [blogTransactions, setBlogTransactions] = useState(Object.create({}))
   const [transactionsPending, setTransactionsPending] = useState(false)
+  const [pendingCount, setPendingCount] = useState(0)
   const [requesting, setRequesting] = useState(false)
 
-  const context = useWeb3React()
+  const context = useActiveWeb3React()
   // { connector, library, chainId, account, activate, deactivate, active, error }
   const { connector, chainId, account, activate, active } = context
   const { toastSuccess, toastError } = useToast()
@@ -76,8 +78,6 @@ export const UserTransactionProvider = (props) => {
         blogTransactions[`${chainId}`][`${hash}`].transactionState = 'success';
         toastSuccess('Transaction Successful', response.transactionHash)
 
-        console.log(response)
-
         if (onSuccess !== undefined) {
           onSuccess()
         }
@@ -94,8 +94,6 @@ export const UserTransactionProvider = (props) => {
         setTransactionsPending(false)
         // TODO do not delete. TO determine pending count, check transaction state
         //delete blogTransactions[chainId][hash]
-        console.log(blogTransactions)
-
         setBlogTransactions({
           ...blogTransactions
         });
@@ -121,16 +119,11 @@ export const UserTransactionProvider = (props) => {
     // setBlogTransactions(blogTransactions);
     // TODO store transactions in local storage?
   }
-
-  const pendingCount = () => {
-    return (blogTransactions === undefined || blogTransactions[`${chainId}`] === undefined) ? 
-      0 : Object.keys(blogTransactions[`${chainId}`]).filter(x => x.transactionState === 'pending')?.length
-  }
-
   useEffect(() => {
-    //if (blogTransactions[chainId] === undefined) return
-    console.log(Object.keys(blogTransactions))
-    //setPendingCount(Object.keys(blogTransactions[chainId]).length)
+    var count = (blogTransactions === undefined || blogTransactions[`${chainId}`] === undefined) ? 
+      0 : Object.values(blogTransactions[`${chainId}`]).filter(x => x.transactionState === 'pending')?.length
+
+    setPendingCount(count)
   }, [blogTransactions])
 
   return (

@@ -61,32 +61,34 @@ export const useBlogData = blogId => {
   const fetchPostList = useCallback(async () => {
     setIsPostsLoading(true)
     //var postCount = (await dBlogContract.postCount()).toNumber()
+
+    // TODO handle scenario where less than 10 left to load
     var postsToLoad = postCount > 10 ? 10 : postCount;
     var postList = blogPostData.postList
     var startingIndex = postCount - postsLoaded;
 
-    // for (var i = startingIndex; i > startingIndex - postsToLoad; i--) {
-    //   const postAddress = await dBlogContract.postMap(i)
-    //   const postContract = getDBlogPostContract(postAddress, library.getSigner())
-    //   const postTitle = await postContract.title() 
+    for (var i = startingIndex; i > startingIndex - postsToLoad; i--) {
+      const postAddress = await dBlogContract.postMap(i)
+      const postContract = getDBlogPostContract(postAddress)
+      const postTitle = await postContract.title() 
       
-    //   const postNum = i//(await postContract.postNum()).toNumber()
-    //   const postLikes = (await postContract.likeCount()).toNumber()
-    //   const currentAccountLiked = await postContract.likers(account)
+      const postNum = i//(await postContract.postNum()).toNumber()
+      const postLikes = (await postContract.likeCount()).toNumber()
+      const currentAccountLiked = account == undefined ? false : await postContract.likers(account)
    
-    //   // TODO store creationdate (in contract?)
-    //   var postListItem = {
-    //     address: postAddress,
-    //     title: postTitle,
-    //     postNum: postNum,
-    //     likes: postLikes,
-    //     liked: currentAccountLiked,
-    //   }
-    //   postList.push(postListItem);
-    //   setBlogPostData({
-    //     postList: postList
-    //   })
-    // }
+      // // TODO store creationdate (in contract?)
+      var postListItem = {
+        address: postAddress,
+        title: postTitle,
+        postNum: postNum,
+        likes: postLikes,
+        liked: currentAccountLiked,
+      }
+      postList.push(postListItem);
+      setBlogPostData({
+        postList: postList
+      })
+    }
     setPostsLoaded(postList.length)
     setIsPostsLoading(false)
   }, [postCount, postsLoaded])
@@ -121,7 +123,7 @@ export const useBlogData = blogId => {
       })
       for (var i = postCount; i > 0; i--) {
         const postAddress = await dBlogContract.postMap(i)
-        const postContract = getDBlogPostContract(postAddress, library.getSigner())
+        const postContract = getDBlogPostContract(postAddress)
         const postTitle = await postContract.title()
         console.log(postTitle.toLowerCase())
         if (postTitle.toLowerCase().includes(searchQuery)) {

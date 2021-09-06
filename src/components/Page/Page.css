@@ -8,6 +8,14 @@
   padding-bottom: 50px;
 }
 
+.owner-card {
+  position: absolute;
+  left: -260px;
+  background-color: #F8F9FA;
+  width: 230px;
+  margin-top: 100px;
+}
+
 .subtitle-container {
   display: flex;
   flex-direction: row;
@@ -31,4 +39,13 @@
 
 .wide-container {
   max-width: 1200px;
+}
+
+@media only screen and (max-width: 1400px) {
+  .owner-card {
+      position: relative;
+      width: auto;
+      margin-top: 15px;
+      left: auto;
+  }
 }

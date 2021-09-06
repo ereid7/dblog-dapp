@@ -19,7 +19,7 @@ const PostList = (props) => {
 		{
 			props.postList?.map((value, index) => {
 				return (
-					<PostListItem id={`post_list_item_${index}`} {...value}></PostListItem>
+					<PostListItem key={`post_list_item_${index}`} id={`post_list_item_${index}`} {...value}></PostListItem>
 				)
 			})
 		}

@@ -1,5 +1,6 @@
 import "./PostPage.css"
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
+import { ReactComponent as ShareIcon } from '../../assets/icons/share.svg'
 import { useHistory } from "react-router-dom"
 import { useQuery } from '../../utils/routeUtils'
 import TagList from '../../components/Tags/TagList'
@@ -47,6 +48,9 @@ const PostPage = (props) => {
           <div className="likes-display">
             <LikeIcon height="25px" width="25px" />
             <p className="likes-value">{postData.likeCount}</p>
+          </div>
+          <div className="share-display">
+            <ShareIcon height="25px" width="25px" />
           </div>
         </div>
         <hr />

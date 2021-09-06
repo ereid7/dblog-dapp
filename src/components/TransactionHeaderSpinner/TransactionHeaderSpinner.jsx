@@ -23,7 +23,7 @@ const TransactionHeaderSpinner = (props) => {
             {
               requesting ? (
                 'Requesting'
-              ) : `${pendingCount()} Pending`
+              ) : `${pendingCount} Pending`
             }
             <Spinner
               className="transactionSpinner"
