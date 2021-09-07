@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom"
 import useUserTransactionContext from '../hooks/useUserTransactionContext'
 import { transactionStates } from '../utils/enums'
 
+// TODO limit to 1000 characters
 export const useCreatePostData = blogId => {
   const [isLoading, setIsLoading] = useState(false)
   const [value, setValue] = useState('')
@@ -23,7 +24,8 @@ export const useCreatePostData = blogId => {
     setIsLoading(true)
     try {
       setTransactionState(transactionStates.REQUESTING)
-      console.log(postTitle)
+
+      // var options = { gasLimit: 85000, maxFeePerGas: 20, maxPriorityFeePerGas: 1000000000 }
       var publishTransaction = () => dBlogContract.publishBlogPost(postTitle, value, ["mockTag1", "mockTag2", "mockTag3"], true)
 
       var onSuccess = () => {

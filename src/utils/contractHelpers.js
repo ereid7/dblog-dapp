@@ -32,7 +32,8 @@ export function getProviderOrSigner(library, account) {
 }
 
 export const getContract = (abi, address, signer) => {
-  const signerOrProvider = signer ?? simpleRpcProvider
+  //console.log(signer._address)P
+  const signerOrProvider = signer ? signer : simpleRpcProvider
   return new ethers.Contract(address, abi, signerOrProvider)
 }
 

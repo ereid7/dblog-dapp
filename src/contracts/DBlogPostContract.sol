@@ -23,7 +23,7 @@ contract DBlogPostContract is Ownable {
         string content;
         address writer;
     }
-    
+    // TODO add the ablility to append text !! add edit option to UI, and split long posts into multiple calls
     // TODO owner of this is dblogcontract. Make owner the blog contract owner
     constructor(
         address _blogAddress,
