@@ -8,7 +8,7 @@ contract DBlogPostContract is Ownable {
     DBlogContract public blog;
     uint public postNum;
     string public title;
-    string public content;
+    string public contentIpfsCid;
     string[] public tags;
     uint public likeCount;
     mapping(address => bool) public likers;
@@ -20,7 +20,7 @@ contract DBlogPostContract is Ownable {
 
     struct Comment {
         uint exists;
-        string content;
+        string contentIpfsCid;
         address writer;
     }
     // TODO add the ablility to append text !! add edit option to UI, and split long posts into multiple calls
@@ -29,7 +29,7 @@ contract DBlogPostContract is Ownable {
         address _blogAddress,
         uint _postNum,
         string memory _postTitle,
-        string memory _postContent,
+        string memory _postContentIpfsCid,
         string[] memory _tags,
         bool _commentsEnabled) {
             
@@ -38,7 +38,7 @@ contract DBlogPostContract is Ownable {
         blog = DBlogContract(_blogAddress);
         postNum = _postNum;
         title = _postTitle;
-        content = _postContent;
+        contentIpfsCid = _postContentIpfsCid;
         tags = _tags;
         likeCount = 0;
         commentCount = 0;
@@ -52,8 +52,8 @@ contract DBlogPostContract is Ownable {
         likers[msg.sender] = true;
     }
     
-    function addComment(string memory _content) public {
-        comments[commentCount] = Comment(commentCount++, _content, msg.sender);
+    function addComment(string memory _contentIpfsCid) public {
+        comments[commentCount] = Comment(commentCount++, _contentIpfsCid, msg.sender);
     }
     
     function setDeleted(bool _isDeleted) onlyOwner public {

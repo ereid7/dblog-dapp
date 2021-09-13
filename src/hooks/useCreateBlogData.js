@@ -17,7 +17,7 @@ export const useCreateBlogData = () => {
   const { addTransaction, blogTransactions } = useUserTransactionContext()
   const history = useHistory()
 
-  const dBlogFactoryContract = useDBlogFactoryContract("0x99eE883F3739541953B2a24e8F1848b2A0987703")
+  const dBlogFactoryContract = useDBlogFactoryContract("0x18d8a38eaF5dEB5FE1abb9c2A0Dbe9bC652873eF")
   const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)
 
   const onCreate = useCallback(async (blogName) => {
