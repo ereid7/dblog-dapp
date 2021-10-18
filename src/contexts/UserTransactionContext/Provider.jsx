@@ -3,7 +3,11 @@ import {
   useWeb3React, 
 } from '@web3-react/core'
 import useToast from '../../hooks/useToast'
+import useEventsContext from '../../hooks/useEventsContext'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import { transactionTypes } from '../../utils/enums'
+
+//https://www.pluralsight.com/guides/how-to-communicate-between-independent-components-in-reactjs
 
 export const UserTransactionContext = createContext()
 
@@ -20,25 +24,6 @@ export const transactionState = {
   FAILED: 'failed'
 }
 
-// TODO 
-// helper that can take a ethers library transaction response and add it to the list of transactions
-// function useTransactionAdder() {
-//   var _a = useWeb3React(), chainId = _a.chainId, account = _a.account;
-//   var dispatch = useDispatch();
-//   return useCallback(function (response, _a) {
-//       var _b = _a === void 0 ? {} : _a, summary = _b.summary, approval = _b.approval, claim = _b.claim;
-//       if (!account)
-//           return;
-//       if (!chainId)
-//           return;
-//       var hash = response.hash;
-//       if (!hash) {
-//           throw Error('No transaction hash found.');
-//       }
-//       //dispatch(addTransaction({ hash: hash, from: account, chainId: chainId, approval: approval, summary: summary, claim: claim }));
-//   }, [dispatch, chainId, account]);
-// }
-
 export const UserTransactionProvider = (props) => {
   const [blogTransactions, setBlogTransactions] = useState(Object.create({}))
   const [transactionsPending, setTransactionsPending] = useState(false)
@@ -50,10 +35,12 @@ export const UserTransactionProvider = (props) => {
   const { connector, chainId, account, activate, active } = context
   const { toastSuccess, toastError } = useToast()
 
+  const { on, remove, dispatch } = useEventsContext()
 
   // TODO store list of pending transactions and their states
   const addTransaction = async (
-    transaction, 
+    transaction,
+    transactionType,
     onSuccess = undefined, 
     onFailure = undefined,
     onRejected = undefined,
@@ -76,8 +63,11 @@ export const UserTransactionProvider = (props) => {
       // after transaction is created, rest is synchronous so callers know the transaction is pending
       txResponse.wait().then(response => {
         blogTransactions[`${chainId}`][`${hash}`].transactionState = 'success';
-        toastSuccess('Transaction Successful', response.transactionHash)
+        // TODO create event enums
+        console.log(transactionType)
+        dispatch("transaction-success", { hash: hash, type: transactionType });
 
+        toastSuccess('Transaction Successful', response.transactionHash)
         if (onSuccess !== undefined) {
           onSuccess()
         }

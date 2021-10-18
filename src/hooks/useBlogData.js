@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react"
 import { getDBlogPostContract } from "../utils/contractHelpers"
 import { useDBlogContract } from '../hooks/useContract'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
+import useEventsContext from '../hooks/useEventsContext'
 import { useSessionStorageMap } from "./useSessionStorageMap"
 
 export const useBlogData = blogId => {
@@ -10,9 +11,7 @@ export const useBlogData = blogId => {
   const [isBlogOwner, setIsBlogOwner] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isPostsLoading, setIsPostsLoading] = useState(true)
-
   const [isSearchResults, setIsSearchResults] = useState(false)
-
 	const [blogData, setBlogData] = useState({
 		title: '',
 		tagList:  []
@@ -21,6 +20,8 @@ export const useBlogData = blogId => {
     postList: []
   })
   const [postCount, setPostCount] = useState(0)
+  const eventsContext = useEventsContext()
+
   const dBlogContract = useDBlogContract(blogId)
 
   var [setBlogMapItem, remove, getBlogMapItem, clearBlogMap] = useSessionStorageMap("dBlogDataMap")
@@ -160,6 +161,15 @@ export const useBlogData = blogId => {
     }
     setIsPostsLoading(false)
   }, [postCount])
+
+  // useEffect(() => {
+  //   eventsContext.on("transaction-successful", )
+
+
+  //   return (
+
+  //   );
+  // })
 
   // TODO setup contract event listeners
   // TODO why is postCreatedHandler called on page refresh

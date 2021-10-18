@@ -1,9 +1,9 @@
 import "./PostPage.css"
 import { ReactComponent as LikeIcon } from '../../assets/icons/hand-thumbs-up.svg'
-import { ReactComponent as ShareIcon } from '../../assets/icons/share.svg'
 import { useHistory } from "react-router-dom"
 import { useQuery } from '../../utils/routeUtils'
 import TagList from '../../components/Tags/TagList'
+import SharePostMenu from '../../components/SharePostMenu/SharePostMenu'
 import Page from '../../components/Page/Page'
 import { usePostData } from '../../hooks/usePostData'
 import MDEditor from "@uiw/react-md-editor"
@@ -50,7 +50,8 @@ const PostPage = (props) => {
             <p className="likes-value">{postData.likeCount}</p>
           </div>
           <div className="share-display">
-            <ShareIcon height="25px" width="25px" />
+            {/* <ShareIcon height="25px" width="25px" /> */}
+            <SharePostMenu></SharePostMenu>
           </div>
         </div>
         <hr />

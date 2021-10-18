@@ -3,7 +3,7 @@ import { useEffect, useCallback, useState } from 'react'
 import { useQuery } from '../utils/routeUtils'
 import { useHistory } from "react-router-dom"
 import useUserTransactionContext from '../hooks/useUserTransactionContext'
-import { transactionStates } from '../utils/enums'
+import { transactionStates, ipfsUploadStates, transactionTypes } from '../utils/enums'
 import { create } from 'ipfs-http-client'
 
 // TODO limit to 1000 characters
@@ -13,6 +13,8 @@ export const useCreatePostData = blogId => {
   const [blogName, setBlogName] = useState('')
   const [postTitle, setPostTitle] = useState('')
   const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)
+  const [ipfsUploadState, setIpfsUploadState] = useState(ipfsUploadStates.NO_UPLOAD)
+  const [ipfsUploadCid, setIpfsUploadCid] = useState('')
 
   const history = useHistory();
   const dBlogContract = useDBlogContract(blogId)
@@ -25,30 +27,36 @@ export const useCreatePostData = blogId => {
   const { addTransaction } = useUserTransactionContext()
   //const [transactionState, setTransactionState] = useState(transactionStates.NO_REQUEST)
 
-  const onRequestPublish = useCallback(async () => {
+  const onRequestPublish = async () => {
     setIsLoading(true)
+
+    // upload post content to ipfs
+    let cid = null
     try {
+      setIpfsUploadState(ipfsUploadStates.UPLOADING)
+      cid = await client.add(value)
+      setIpfsUploadCid(cid)
+      setIpfsUploadState(ipfsUploadStates.SUCCESS)
+    }
+    catch(e) {
+      setIpfsUploadCid('')
+      setIpfsUploadState(ipfsUploadStates.ERROR)
+      return;
+    }
 
-      // write data to ipfs\
-      const cid = await client.add(value)
-      console.log(cid)
-
+    try {
       setTransactionState(transactionStates.REQUESTING)
 
-      // var options = { gasLimit: 85000, maxFeePerGas: 20, maxPriorityFeePerGas: 1000000000 }
+      console.log(postTitle)
       var publishTransaction = () => dBlogContract.publishBlogPost(postTitle, cid.path, ["mockTag1", "mockTag2", "mockTag3"], true)
 
       var onSuccess = () => {
         history.push(`/blog?id=${blogId}`);
       }
 
-      var publishTx = await addTransaction(publishTransaction, onSuccess)
+      var publishTx = await addTransaction(publishTransaction, transactionTypes.CREATE_POST, onSuccess)
       // TODO wait for event. Need to update smart contract
 
-      const added = await client.add(value)
-
-      console.log(added)
-      
       setTransactionState(transactionStates.SUBMIT)
     }
     catch(e) {
@@ -57,11 +65,17 @@ export const useCreatePostData = blogId => {
     finally {
       setIsLoading(false)
     }
-  }, [addTransaction, postTitle, value])
+  };
 
   const onContentChanged = (content) => {
     // TODO save to local storage
     setValue(content)
+  }
+
+  const onTitleChanged = (title) => {
+
+    console.log(title)
+    setPostTitle(title)
   }
 
   useEffect(() => {
@@ -73,5 +87,5 @@ export const useCreatePostData = blogId => {
   }, [])
 
 
-  return [isLoading, blogName, value, setPostTitle, onContentChanged, onRequestPublish]
+  return [isLoading, transactionState, ipfsUploadState, blogName, value, onTitleChanged, onContentChanged, onRequestPublish]
 }

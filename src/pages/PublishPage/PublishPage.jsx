@@ -34,16 +34,18 @@ const PublishPage = (props) => {
 		<Page>
       <div className="page-container">
         {
-					<div className="owner-card">
-            <Card>
-              <Card.Body>
-                {/* <Card.Title >Owner Panel</Card.Title> */}
-                  <Button onClick={handleShow} variant="outline-secondary">
-                    Create Blog
-                  </Button>
-              </Card.Body>
-            </Card>
-          </div>
+          active ? (
+            <div className="owner-card">
+              <Card>
+                <Card.Body>
+                  {/* <Card.Title >Owner Panel</Card.Title> */}
+                    <Button onClick={handleShow} variant="outline-secondary">
+                      Create Blog
+                    </Button>
+                </Card.Body>
+              </Card>
+            </div>
+          ) : ''
 				}
         {/* <h1 className="publish-title">Publish</h1> */}
         <div className="bloglist-container">

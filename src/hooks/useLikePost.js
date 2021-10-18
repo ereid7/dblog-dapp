@@ -2,6 +2,7 @@ import { useDBlogPostContract, useDBlogContract } from "./useContract"
 import useUserTransactionContext from '../hooks/useUserTransactionContext'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import { getDBlogPostContract } from "../utils/contractHelpers"
+import { transactionTypes } from '../utils/enums'
 import { useCallback } from 'react'
 
 export const useLikePost = postAddress => {
@@ -12,7 +13,7 @@ export const useLikePost = postAddress => {
     const postContract = getDBlogPostContract(postAddress, library.getSigner())
     var likeTransaction = () => postContract.likePost()
 
-    await addTransaction(likeTransaction, onLikePostSuccess)
+    await addTransaction(likeTransaction,transactionTypes.LIKE_POST, onLikePostSuccess)
   }, [addTransaction])
 
   return [onRequestLikePost]

@@ -2,11 +2,13 @@ import Page from '../../components/Page/Page'
 import MDEditor from "@uiw/react-md-editor"
 import { useState } from "react"
 import { useHistory } from "react-router-dom"
+import CreatePostModal from "../../components/CreatePostModal/CreatePostModal"
 import { useQuery } from '../../utils/routeUtils'
 import { useDBlogContract } from '../../hooks/useContract'
 import './CreatePostPage.css'
 import { useEffect } from 'react'
 import { useCreatePostData } from '../../hooks/useCreatePostData'
+import { transactionStates } from '../../contexts/UserTransactionContext'
 
 
 // todo verify wallet is connected
@@ -19,7 +21,15 @@ const CreatePostPage = (props) => {
     history.push('/publish')
   }
 
-  const [isLoading, blogName, value, setPostTitle, onContentChanged, onRequestPublish] = useCreatePostData(blogId)
+  const [
+    isLoading, 
+    transactionState, 
+    ipfsUploadState, 
+    blogName, 
+    value, 
+    onTitleChanged, 
+    onContentChanged, 
+    onRequestPublish] = useCreatePostData(blogId)
 
   const onBlogSelected = (event) => {
     event.preventDefault()
@@ -27,6 +37,10 @@ const CreatePostPage = (props) => {
 
     history.push(`/blog?id=${blogId}`)
   }
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = ()  => setShow(true);
 
   return (
     <Page >
@@ -43,7 +57,9 @@ const CreatePostPage = (props) => {
         <div className="search-address-input input-group mb-4">
 					<input 
 					  type="text"
-            onChange={e => setPostTitle(e.target.value)}
+            onChange={e => {
+              onTitleChanged(e.target.value)
+            }}
 						className="form-control form-control-lg"
 						placeholder="Post Title"
 						required />
@@ -53,8 +69,15 @@ const CreatePostPage = (props) => {
 
         <MDEditor value={value} onChange={onContentChanged} />
 
-        <button disabled={isLoading} onClick={onRequestPublish} className="submit-btn btn btn-secondary btn-block btn-lg">Publish</button>
+        <button disabled={isLoading} onClick={handleShow} className="submit-btn btn btn-secondary btn-block btn-lg">Preview Publish</button>
       </div>
+      <CreatePostModal 
+        show={show} 
+        onHide={handleClose} 
+        blogId={blogId}
+        transactionState={transactionState}
+        ipfsUploadState={ipfsUploadState}
+        onRequestPublish={onRequestPublish} />
     </Page>
   )
 }

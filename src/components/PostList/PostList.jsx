@@ -13,6 +13,7 @@ const PostList = (props) => {
 	// 	history.push(`/post?id=${address}`)
 	// }
 
+	// TODO use popover element for share 
 	// TODO create likepostbutton component
   return (
 		<div className="blog-post-list">

@@ -5,6 +5,7 @@ import App from './App';
 import { Web3ReactProvider } from '@web3-react/core';
 import { UserTransactionProvider } from './contexts/UserTransactionContext';
 import { ToastsProvider } from './contexts/ToastContext/Provider';
+import { EventsProvider } from './contexts/EventContext/Provider';
 import { ethers } from 'ethers';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,9 +23,11 @@ export const getLibrary = (provider) => {
 ReactDOM.render(
     <ToastsProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
-        <UserTransactionProvider>
-          <App />
-        </UserTransactionProvider>
+        <EventsProvider>
+          <UserTransactionProvider>
+            <App />
+          </UserTransactionProvider>
+        </EventsProvider>
       </Web3ReactProvider>
     </ToastsProvider>,
   document.getElementById('root')

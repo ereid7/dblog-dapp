@@ -18,7 +18,7 @@ const useActiveWeb3React = () => {
     }
   }, [library])
 
-  return { library: provider, chainId: chainId ?? 3, ...web3React } // 1337
+  return { library: provider, chainId: chainId ?? 1337, ...web3React } // 1337
 }
 
 export default useActiveWeb3React
