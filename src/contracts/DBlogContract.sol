@@ -57,16 +57,6 @@ contract DBlogContract is Ownable {
         emit PostCreated(postMap[postCount]);
         return postCount;
     }
-    
-    function deleteBlogPost(uint _postNum) public {
-        // must be owner
-        
-        // if (postMap[_postNum]) {
-        //     postMap[_postNum].isDeleted = true;
-        // }
-        
-        // todo delete tag if no posts 
-    }
 
     function setBlogName(string memory _blogName) onlyOwner public {
         blogName = _blogName;

@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .secret
+.pocketapikey
 
 # testing
 /coverage
