@@ -57,7 +57,7 @@
      // Useful for deploying to a public network.
      // NB: It's important to wrap the provider as a function.
      ropsten: {
-       provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/5b8b996932ad4e059a3586a421c54fd4`),
+       provider: () => new HDWalletProvider(mnemonic, `<walletprovider>`),
        network_id: 3,       // Ropsten's id
        gas: 5500000,        // Ropsten has a lower block limit than mainnet
        confirmations: 2,    // # of confs to wait between deployments. (default: 0)

@@ -3,7 +3,7 @@ A decentralized blogging web application build with truffle, react, web3-react, 
 Each blog post is a smart contract, and the blog content lives on the IPFS.
 
 ## Demonstration Video:
-
+https://www.youtube.com/watch?v=RpCy5lOF6yk
 
 ## Setup
 #### Web3 Dependencies
