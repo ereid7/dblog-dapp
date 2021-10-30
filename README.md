@@ -1,6 +1,8 @@
-# (WIP) Decentralized Blogging Application
-
+# Decentralized Blogging Application
 A decentralized blogging web application build with truffle, react, web3-react, ethers.
+Each blog post is a smart contract, and the blog content lives on the IPFS.
+
+## Demonstration Video:
 
 
 ## Setup
@@ -14,18 +16,17 @@ A decentralized blogging web application build with truffle, react, web3-react, 
 - react-md-editor
 
 ### Installing Dependencies:
-
 - `npm i`
 - `npm i -g truffle`
 
-### Setting up local blockchain
-- For local development, use Ganache
-- Update `truffle-config.js` development host and port to Ganache server
+## Creating RPC Endpoint
+- Go to [pokt network](https://www.pokt.network/) and create a Ropsten Application to mint an RPC endpoint.
+- Update the `"ROPSTEN_RPC_URL"` in `config.js` to the RPC endpoint url
 
 ## Running Frontend
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 

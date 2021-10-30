@@ -6,12 +6,13 @@ import useEventsContext from '../hooks/useEventsContext'
 import { useSessionStorageMap } from "./useSessionStorageMap"
 
 export const useBlogData = blogId => {
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [postsLoaded, setPostsLoaded] = useState(0);
   const [isBlogOwner, setIsBlogOwner] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isPostsLoading, setIsPostsLoading] = useState(true)
   const [isSearchResults, setIsSearchResults] = useState(false)
+  
 	const [blogData, setBlogData] = useState({
 		title: '',
 		tagList:  []
@@ -26,14 +27,12 @@ export const useBlogData = blogId => {
 
   var [setBlogMapItem, remove, getBlogMapItem, clearBlogMap] = useSessionStorageMap("dBlogDataMap")
 
-  // TODO fix postcreated event subscription
   const postCreatedHandler = useCallback(async (postAddress) => {
     console.log(postAddress)
     const postContract = getDBlogPostContract(postAddress)
     const postTitle = await postContract.title() 
     const postNum = (await postContract.postNum()).toNumber()
     const postLikes = (await postContract.likeCount()).toNumber()
-    // TODO store creationdate (in contract?)
     var postListItem = {
       address: postAddress,
       title: postTitle,
@@ -61,9 +60,6 @@ export const useBlogData = blogId => {
 
   const fetchPostList = useCallback(async () => {
     setIsPostsLoading(true)
-    //var postCount = (await dBlogContract.postCount()).toNumber()
-
-    // TODO handle scenario where less than 10 left to load
     var postsToLoad = postCount > 10 ? 10 : postCount;
     var postList = blogPostData.postList
     var startingIndex = postCount - postsLoaded;
@@ -73,11 +69,10 @@ export const useBlogData = blogId => {
       const postContract = getDBlogPostContract(postAddress)
       const postTitle = await postContract.title() 
       
-      const postNum = i//(await postContract.postNum()).toNumber()
+      const postNum = i
       const postLikes = (await postContract.likeCount()).toNumber()
       const currentAccountLiked = account == undefined ? false : await postContract.likers(account)
    
-      // // TODO store creationdate (in contract?)
       var postListItem = {
         address: postAddress,
         title: postTitle,
@@ -110,7 +105,6 @@ export const useBlogData = blogId => {
     }
   }, [account])
 
-  // TODO update thihs
   const searchPostList = useCallback(async (searchQuery) => {
     setIsPostsLoading(true)
     setIsSearchResults(true)
@@ -142,37 +136,11 @@ export const useBlogData = blogId => {
             postList: postResultList
           })
         }
-        // post
-
-        // const postNum = (await postContract.postNum()).toNumber()
-        // const postLikes = (await postContract.likeCount()).toNumber()
-        // // TODO store creationdate (in contract?)
-        // var postListItem = {
-        //   address: postAddress,
-        //   title: postTitle,
-        //   postNum: postNum,
-        //   likes: postLikes
-        // }
-        // postList.push(postListItem);
-        // setBlogPostData({
-        //   postList: postList
-        // })
       }
     }
     setIsPostsLoading(false)
   }, [postCount])
 
-  // useEffect(() => {
-  //   eventsContext.on("transaction-successful", )
-
-
-  //   return (
-
-  //   );
-  // })
-
-  // TODO setup contract event listeners
-  // TODO why is postCreatedHandler called on page refresh
   useEffect(() => {
     if (!isPostsLoading) {
       dBlogContract.on('PostCreated', postCreatedHandler)
@@ -183,7 +151,6 @@ export const useBlogData = blogId => {
   }, [dBlogContract])
 
   useEffect(() => {
-    // TODO store this in method or hook. Clears data if browser refresh, but not navigate with back/forward buttons
     if(window.location.href == window.sessionStorage.getItem("origin")){
       clearBlogMap()
     }

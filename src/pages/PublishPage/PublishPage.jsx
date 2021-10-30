@@ -1,8 +1,6 @@
 import React, { useState } from "react"
 import "./PublishPage.css"
-import { useHistory } from "react-router-dom";
 import Page from '../../components/Page/Page'
-import { ethers } from "ethers";
 import { usePublishData } from "../../hooks/usePublishData";
 import CreateBlogModal from "../../components/CreateBlogModal/CreateBlogModal"
 import BlogList from '../../components/BlogList/BlogList'
@@ -10,20 +8,9 @@ import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-// TODO test
-import useToast from '../../hooks/useToast'
-
-// TODO replace all double quotes with single quotes
-
 const PublishPage = (props) => {
   const [blogList, isLoading] = usePublishData()
   const { active } = useActiveWeb3React()
-
-  // TODO TEST
-  const { toastInfo } = useToast()
-
-  // TODO check query as well on page load\
-  // TODO add blog description variable
 
   const [show, setShow] = useState(false);
 
@@ -38,7 +25,6 @@ const PublishPage = (props) => {
             <div className="owner-card">
               <Card>
                 <Card.Body>
-                  {/* <Card.Title >Owner Panel</Card.Title> */}
                     <Button onClick={handleShow} variant="outline-secondary">
                       Create Blog
                     </Button>
@@ -47,7 +33,6 @@ const PublishPage = (props) => {
             </div>
           ) : ''
 				}
-        {/* <h1 className="publish-title">Publish</h1> */}
         <div className="bloglist-container">
         { 
           !active ? (
@@ -63,11 +48,9 @@ const PublishPage = (props) => {
           ) : (
             <div>
               <BlogList isLoading={isLoading} blogList={blogList}></BlogList>
-              {/* <button onClick={handleShow} className="newblog-btn btn btn-secondary btn-block btn-lg">New Blog</button> */}
             </div>
           )
         }
-
         </div>
       </div>
       <CreateBlogModal show={show} onHide={handleClose} />

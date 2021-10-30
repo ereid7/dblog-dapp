@@ -40,7 +40,6 @@ const App = () => {
     }
   }, [])
 
-  // TODO lazy load components (see pancake-frontend app.tsx)
   console.log("APP")
   return (  
     <div className="App">
@@ -70,5 +69,4 @@ const App = () => {
   )
 }
 
-// TODO use memo here?
 export default App

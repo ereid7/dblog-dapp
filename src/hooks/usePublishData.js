@@ -1,29 +1,27 @@
 import { useEffect, useState } from "react"
-import { getDBlogContract, getDBlogPostContract, getDBlogFactoryContract } from "../utils/contractHelpers"
-import { useDBlogContract, useDBlogFactoryContract, useDBlogPostContract } from '../hooks/useContract'
+import { getDBlogContract } from "../utils/contractHelpers"
+import { useDBlogFactoryContract } from '../hooks/useContract'
 import useEventsContext from '../hooks/useEventsContext'
 import { transactionTypes } from "../utils/enums"
-//import { useEventsContext}
 import {
   useWeb3React, 
 } from '@web3-react/core'
+import config from '../config.json'
 
 export const usePublishData = () => {
   const { active, account, library } = useWeb3React()
-  const { on, remove, dispatch } = useEventsContext()
-  //const { blogTransactions } = useUserTransactionContext()
+  const { on, remove } = useEventsContext()
 
   const [isLoading, setIsLoading] = useState(true)
 	const [publishData, setPublishData] = useState({
     blogList: []
   })
   
-  const dBlogFactoryContract = useDBlogFactoryContract("0x4F554bADC08ccf3686010AB3A11BA9bD96B76F7C")
+  const dBlogFactoryContract = useDBlogFactoryContract(config.FACTORY_CONTRACT_ADDRESS)
 
   console.log(dBlogFactoryContract)
 
   const fetchPublishData = async () => {
-    // TODO try/catch
     setIsLoading(true)
     const blogCount = (await dBlogFactoryContract.addressBlogCounts(account)).toNumber()
     if (blogCount > 0) {
@@ -53,7 +51,6 @@ export const usePublishData = () => {
 
 
   useEffect(() => {
-    // TODO events enum
     on("transaction-success", onTransactionSuccess)
 
     return () => {

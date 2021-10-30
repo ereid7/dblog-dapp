@@ -1,13 +1,7 @@
 import React, { useState, useEffect, createContext, useCallback } from 'react'
-import {
-  useWeb3React, 
-} from '@web3-react/core'
 import useToast from '../../hooks/useToast'
 import useEventsContext from '../../hooks/useEventsContext'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
-import { transactionTypes } from '../../utils/enums'
-
-//https://www.pluralsight.com/guides/how-to-communicate-between-independent-components-in-reactjs
 
 export const UserTransactionContext = createContext()
 
@@ -37,7 +31,6 @@ export const UserTransactionProvider = (props) => {
 
   const { on, remove, dispatch } = useEventsContext()
 
-  // TODO store list of pending transactions and their states
   const addTransaction = async (
     transaction,
     transactionType,
@@ -63,7 +56,6 @@ export const UserTransactionProvider = (props) => {
       // after transaction is created, rest is synchronous so callers know the transaction is pending
       txResponse.wait().then(response => {
         blogTransactions[`${chainId}`][`${hash}`].transactionState = 'success';
-        // TODO create event enums
         console.log(transactionType)
         dispatch("transaction-success", { hash: hash, type: transactionType });
 
@@ -82,8 +74,6 @@ export const UserTransactionProvider = (props) => {
       })
       .finally(() => {
         setTransactionsPending(false)
-        // TODO do not delete. TO determine pending count, check transaction state
-        //delete blogTransactions[chainId][hash]
         setBlogTransactions({
           ...blogTransactions
         });
@@ -105,9 +95,6 @@ export const UserTransactionProvider = (props) => {
  
       throw error
     }
-    // return hash;
-    // setBlogTransactions(blogTransactions);
-    // TODO store transactions in local storage?
   }
   useEffect(() => {
     var count = (blogTransactions === undefined || blogTransactions[`${chainId}`] === undefined) ? 

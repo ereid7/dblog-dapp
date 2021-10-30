@@ -11,12 +11,9 @@ export const usePostData = postId => {
     content: '',
     likeCount: 0,
     blogAddress: '',
-    blogName: '',
-    tagList: []
+    blogName: ''
   })
   const dBlogPostContract = useDBlogPostContract(postId)
-
-  // TODO create ipfs provider hook
 
   useEffect(() => {
     const fetchPostData = async () => {
@@ -27,7 +24,7 @@ export const usePostData = postId => {
       const contentIpfsCid = await dBlogPostContract.contentIpfsCid()
       const blogName = await dBlogContract.blogName()
       const likeCount = (await dBlogPostContract.likeCount()).toNumber()
-      let content = await fetch(`https://gateway.pinata.cloud/ipfs/${contentIpfsCid}`);
+      let content = await fetch(`https://ipfs.io/ipfs/${contentIpfsCid}`);
       let contentText = await content.text();
 
       const setPartPostData = (partialData) => setPostData({ ...postData, ...partialData })
@@ -37,8 +34,7 @@ export const usePostData = postId => {
         content: contentText,
         likeCount: likeCount,
         blogAddress: dBlogContract.address,
-        blogName: blogName,
-        tagList: []
+        blogName: blogName
       })
       setIsLoading(false)
     }

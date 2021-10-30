@@ -26,21 +26,20 @@ const ReadPage = (props) => {
           history.push(`/post?id=${addressInput}`)
         }
         else {
-          // todo display not found
+          // display not found
         }
       }
     }
     else {
-      // todo display invalid address
+      // display invalid address
     }
   }
 
-  // TODO check query as well on page load
   return (
 		<Page isLoading={false}>
       <div className="page-container">
       <form className="mb-3" onSubmit={handleSubmit}>
-        <h4 className="read-title">Enter blog address or post address. You may also enter a wallet address to view dblogs created by address</h4>
+        <h4 className="read-title">Enter blog address or post address.</h4>
 				<div className="search-address-input input-group mb-4">
 					<input 
 					  type="text"

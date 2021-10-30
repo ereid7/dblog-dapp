@@ -1,0 +1,4 @@
+{
+  "ROPSTEN_RPC_URL": "https://eth-ropsten.gateway.pokt.network/v1/lb/<portal-id>",
+  "FACTORY_CONTRACT_ADDRESS": "0x68B4202c1824464dF2814E3E39C173a8f50A0161"
+}

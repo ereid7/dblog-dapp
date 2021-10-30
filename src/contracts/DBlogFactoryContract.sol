@@ -4,11 +4,6 @@ pragma solidity >=0.4.22 <0.9.0;
 import "./DBlogContract.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
-// struct DBlogUser {
-// 	bool exists;
-// 	uint postCount;
-// }
-
 contract DBlogFactoryContract is Ownable {
 	uint public blogCount;
 

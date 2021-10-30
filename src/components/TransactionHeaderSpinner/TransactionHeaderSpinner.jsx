@@ -12,9 +12,7 @@ const TransactionHeaderSpinner = (props) => {
   const { transactionsPending, blogTransactions, pendingCount, requesting } = useUserTransactionContext()
   const context = useWeb3React()
   const { connector, chainId, account, activate, active } = context
-
-  // TODO why publishing posts with no title
-
+  
   return (
     <div className="transaction-item-container">
       {

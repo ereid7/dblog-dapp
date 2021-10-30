@@ -4,8 +4,6 @@ import { useCreateBlogData } from '../../hooks/useCreateBlogData'
 import { useState, useEffect } from 'react'
 import { transactionStates } from '../../utils/enums'
 
-// TODO create hook responsible for checking recent wallet transactions, determining if any pending related to the dapp
-
 const CreateBlogModal = (props) => {
   const [blogName, setBlogName] = useState('Blog Name')
   const [buttonText, setButtonText] = useState('Create')

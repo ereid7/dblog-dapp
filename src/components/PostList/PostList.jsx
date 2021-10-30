@@ -1,20 +1,8 @@
 import "./PostList.css"
-import { useHistory } from "react-router-dom"
 import Spinner from 'react-bootstrap/Spinner'
 import PostListItem from './PostListItem'
-import { useLikePost } from "../../hooks/useLikePost"
-import { hexValue } from "ethers/lib/utils"
 
 const PostList = (props) => {
-	// const history = useHistory()
-	// const [onRequestLikePost] = useLikePost()
-
-	// const navigateToPost = (address) => {
-	// 	history.push(`/post?id=${address}`)
-	// }
-
-	// TODO use popover element for share 
-	// TODO create likepostbutton component
   return (
 		<div className="blog-post-list">
 		{

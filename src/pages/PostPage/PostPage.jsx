@@ -43,14 +43,13 @@ const PostPage = (props) => {
           <MDEditor.Markdown source={postData.content} />
         </div>
         <br />
-        <TagList tagList={postData.tagList}></TagList>
+        {/* <TagList tagList={postData.tagList}></TagList> */}
         <div className="post-footer-container">
           <div className="likes-display">
             <LikeIcon height="25px" width="25px" />
             <p className="likes-value">{postData.likeCount}</p>
           </div>
           <div className="share-display">
-            {/* <ShareIcon height="25px" width="25px" /> */}
             <SharePostMenu></SharePostMenu>
           </div>
         </div>

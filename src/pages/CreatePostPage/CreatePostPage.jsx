@@ -4,14 +4,9 @@ import { useState } from "react"
 import { useHistory } from "react-router-dom"
 import CreatePostModal from "../../components/CreatePostModal/CreatePostModal"
 import { useQuery } from '../../utils/routeUtils'
-import { useDBlogContract } from '../../hooks/useContract'
 import './CreatePostPage.css'
-import { useEffect } from 'react'
 import { useCreatePostData } from '../../hooks/useCreatePostData'
-import { transactionStates } from '../../contexts/UserTransactionContext'
 
-
-// todo verify wallet is connected
 const CreatePostPage = (props) => {
 
   const blogId = useQuery().get("blogId")
@@ -33,7 +28,6 @@ const CreatePostPage = (props) => {
 
   const onBlogSelected = (event) => {
     event.preventDefault()
-    // TODO confirm exit page. cache data in local storage
 
     history.push(`/blog?id=${blogId}`)
   }

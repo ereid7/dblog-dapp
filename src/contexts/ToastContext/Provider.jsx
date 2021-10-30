@@ -13,7 +13,6 @@ export const ToastsContext = createContext(undefined)
 export const ToastsProvider = ({ children }) => {
   const [toasts, setToasts] = useState([])
 
-  // TODO use this except instead of slicing right away, call remove on the toast
   useEffect(() => {
     if (toasts.length > 0) {
       const timer = setTimeout(
